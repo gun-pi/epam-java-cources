@@ -1,5 +1,7 @@
 package com.epam.university.java.core.task002;
 
+import java.util.Arrays;
+
 public class Task002Impl implements Task002 {
     /**
      * Check if strings are equals.
@@ -117,7 +119,9 @@ public class Task002Impl implements Task002 {
      */
     @Override
     public String join(String[] sourceCollection, String glue) {
-        if (glue == null || glue.equals("") || sourceCollection == null) {
+        String[] test = {};
+        if (glue == null || glue.equals("")
+                || sourceCollection == null || Arrays.equals(sourceCollection,test)) {
             throw new IllegalArgumentException();
         }
         for (String stringFromSourceCollection : sourceCollection) {
