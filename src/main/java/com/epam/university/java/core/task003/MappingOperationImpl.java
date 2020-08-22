@@ -1,9 +1,6 @@
 package com.epam.university.java.core.task003;
 
-/**
- * String array conversion operation.
- */
-public interface MappingOperation {
+public class MappingOperationImpl implements MappingOperation {
     /**
      * Convert source string in accordance with conditions.
      *
@@ -11,6 +8,10 @@ public interface MappingOperation {
      * @return converted string
      * @throws IllegalArgumentException if source string not provided
      */
-    String map(String source);
+    @Override
+    public String map(String source) {
+        StringBuilder sourceStrBdr = new StringBuilder(source);
+        sourceStrBdr.reverse();
+        return sourceStrBdr.toString();
+    }
 }
-

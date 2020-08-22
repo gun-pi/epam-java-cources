@@ -1,8 +1,11 @@
 package com.epam.university.java.core.task003;
 
+import java.util.Arrays;
+import java.util.Collections;
 /**
  * String conversion operation.
  */
+
 public interface FlatMappingOperation {
     /**
      * Convert source string to array of result strings.
@@ -12,3 +15,5 @@ public interface FlatMappingOperation {
      */
     String[] flatMap(String source);
 }
+
+
