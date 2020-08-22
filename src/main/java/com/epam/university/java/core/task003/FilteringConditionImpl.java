@@ -1,14 +1,14 @@
 package com.epam.university.java.core.task003;
 
-/**
- * String array filtering condition.
- */
-public interface FilteringCondition {
+public class FilteringConditionImpl implements FilteringCondition {
     /**
      * Check if element satisfies condition.
+     *
      * @param element element
      * @return is satisfied, or false if element not provided
      */
-    boolean isValid(String element);
+    @Override
+    public boolean isValid(String element) {
+        return element.length() >= 4;
+    }
 }
-
