@@ -117,7 +117,8 @@ public class Task002Impl implements Task002 {
      */
     @Override
     public String join(String[] sourceCollection, String glue) {
-        if (glue == null || glue.equals("") || sourceCollection == null) {
+        if (glue == null || glue.equals("") || sourceCollection == null
+                || sourceCollection.length == 0) {
             throw new IllegalArgumentException();
         }
         for (String stringFromSourceCollection : sourceCollection) {
