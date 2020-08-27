@@ -30,7 +30,7 @@ public class Task005Impl implements Task005 {
         int resB = 0;
 
         for (int a = min; a <= max; a++) {
-            for (int b = min; b <= max / 2; b++) {
+            for (int b = min; b <= max / 3; b++) {
                 double quotient = (double)a / (double)b;
                 if (Math.abs((quotient) - Math.PI) < minQuotientDiff) {
                     minQuotientDiff = Math.abs((quotient) - Math.PI);
