@@ -10,9 +10,6 @@ public class PointFactoryImpl implements PointFactory {
      */
     @Override
     public Point newInstance(double x, double y) {
-        Point temp = new PointImpl();
-        temp.setX(x);
-        temp.setY(y);
-        return temp;
+        return new PointImpl(x, y);
     }
 }

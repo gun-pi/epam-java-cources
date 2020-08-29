@@ -10,9 +10,6 @@ public class SquareFactoryImpl implements SquareFactory {
      */
     @Override
     public Square newInstance(Point first, Point second) {
-        Square temp = new SquareImpl();
-        temp.setFirst(first);
-        temp.setSecond(second);
-        return temp;
+        return new SquareImpl(first, second);
     }
 }

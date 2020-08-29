@@ -5,6 +5,20 @@ public class SquareImpl implements Square {
     private Point second;
 
     /**
+     * Constructor.
+     *
+     */
+    public SquareImpl() {
+        this.first = null;
+        this.second = null;
+    }
+
+    public SquareImpl(Point first, Point second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    /**
      * Get first point of square.
      *
      * @return point value

@@ -1,8 +1,24 @@
 package com.epam.university.java.core.task015;
 
+import java.util.Objects;
+
 public class PointImpl implements Point {
     private double x;
     private double y;
+
+    /**
+     * Constructor.
+     *
+     */
+    public PointImpl() {
+        this.x = 0;
+        this.y = 0;
+    }
+
+    public PointImpl(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
     /**
      * Get x value of point.
