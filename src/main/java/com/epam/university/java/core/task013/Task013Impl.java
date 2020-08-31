@@ -2,6 +2,7 @@ package com.epam.university.java.core.task013;
 
 import com.epam.university.java.core.task012.GraphAction;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.ArrayList;
@@ -16,9 +17,16 @@ public class Task013Impl implements Task013 {
      */
     @Override
     public Figure invokeActions(Figure figure, Collection<FigureAction> actions) {
+        if (actions == null || figure == null) {
+            throw new IllegalArgumentException();
+        }
+        if (actions.equals(Arrays.asList())) {
+            throw new IllegalArgumentException();
+        }
         for (FigureAction current: actions) {
             current.run(figure);
         }
+
         return figure;
     }
 
@@ -31,6 +39,9 @@ public class Task013Impl implements Task013 {
      */
     @Override
     public boolean isConvexPolygon(Figure figure) {
+        if (figure == null) {
+            throw new IllegalArgumentException();
+        }
         List<Vertex> vertices = new ArrayList<>(figure.getVertexes());
         int vertexCount = vertices.size();
         

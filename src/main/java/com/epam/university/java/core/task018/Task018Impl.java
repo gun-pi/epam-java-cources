@@ -16,8 +16,11 @@ public class Task018Impl implements Task018 {
      */
     @Override
     public boolean isAnnotationPresent(Object toCheck, Class<?> annotationToFind) {
-        boolean f = toCheck.getClass().isAnnotationPresent((Class<? extends Annotation>) annotationToFind);
-        if (f) return true;
+        boolean f = toCheck.getClass().isAnnotationPresent(
+                (Class<? extends Annotation>) annotationToFind);
+        if (f) {
+            return true;
+        }
 
         Method[] arrayOfMethods = toCheck.getClass().getDeclaredMethods();
         for (Method each : arrayOfMethods) {
@@ -32,24 +35,32 @@ public class Task018Impl implements Task018 {
                 f = each3.isAnnotationPresent((Class<? extends Annotation>) annotationToFind);
             }
         }
-        if (f) return true;
+        if (f) {
+            return true;
+        }
 
         Field[] arrayOfFields = toCheck.getClass().getDeclaredFields();
         for (Field each : arrayOfFields) {
             f = each.isAnnotationPresent((Class<? extends Annotation>) annotationToFind);
         }
-        if (f) return true;
+        if (f) {
+            return true;
+        }
 
         Constructor[] arrayOfConstructors = toCheck.getClass().getDeclaredConstructors();
         for (Constructor each : arrayOfConstructors) {
             f = each.isAnnotationPresent((Class<? extends Annotation>) annotationToFind);
         }
-        if (f) return true;
+        if (f) {
+            return true;
+        }
 
 
         Package packageOfObject = toCheck.getClass().getPackage();
         f = packageOfObject.isAnnotationPresent((Class<? extends Annotation>) annotationToFind);
-        if (f) return true;
+        if (f) {
+            return true;
+        }
 
         return false;
     }

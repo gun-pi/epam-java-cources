@@ -15,6 +15,9 @@ public class FigureImpl implements Figure {
      * Constructor.
      */
     public FigureImpl(int vertexCount) {
+        if (vertexCount < 3) {
+            throw new IllegalArgumentException();
+        }
         vertices = new ArrayList<Vertex>();
         desiredVertexCount = vertexCount;
         actualVertexCount = 0;
@@ -29,6 +32,10 @@ public class FigureImpl implements Figure {
     public void addVertex(Vertex vertex) {
         vertices.add(vertex);
         actualVertexCount++;
+
+        if (actualVertexCount > desiredVertexCount) {
+            throw new IllegalArgumentException();
+        }
 
         if (actualVertexCount == desiredVertexCount) {
             double averageX = 0;

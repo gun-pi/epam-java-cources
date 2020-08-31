@@ -12,6 +12,9 @@ public class GraphImpl implements Graph {
 
 
     GraphImpl(int v) {
+        if (v == 0) {
+            throw new IllegalArgumentException();
+        }
         adjacencyMatrix = new HashMap<>();
         this.verticesCount = v;
     }
@@ -25,6 +28,9 @@ public class GraphImpl implements Graph {
 
     @Override
     public void createEdge(int from, int to) {
+        if (from > verticesCount || to > verticesCount) {
+            throw new IllegalArgumentException();
+        }
         if (adjacencyMatrix.containsKey(from)) {
             adjacencyMatrix.get(from).add(to);
 
@@ -65,6 +71,9 @@ public class GraphImpl implements Graph {
 
     @Override
     public void removeEdge(int from, int to) {
+        if (!adjacencyMatrix.containsKey(from) || !adjacencyMatrix.get(from).contains(to)) {
+            throw new IllegalArgumentException();
+        }
         adjacencyMatrix.get(from).remove(to);
         if (adjacencyMatrix.get(from).size() == 0) {
             adjacencyMatrix.remove(from);
@@ -89,5 +98,8 @@ public class GraphImpl implements Graph {
         return adjacencyMatrix.get(from);
     }
 
+    public Map<Integer,Set> getAdjacencyMatrix() {
+        return adjacencyMatrix;
+    }
     
 }

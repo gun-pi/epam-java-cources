@@ -1,5 +1,6 @@
 package com.epam.university.java.core.task012;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,6 +18,9 @@ public class Task012Impl implements Task012 {
 
     @Override
     public Graph invokeActions(Graph sourceGraph, Collection<GraphAction> actions) {
+        if (sourceGraph == null || actions == null || actions.equals(Arrays.asList())) {
+            throw new IllegalArgumentException();
+        }
         for (GraphAction current: actions) {
             current.run(sourceGraph);
         }
@@ -35,6 +39,14 @@ public class Task012Impl implements Task012 {
 
     @Override
     public boolean pathExists(Graph graph, int from, int to) {
+        if (graph == null) {
+            throw new IllegalArgumentException();
+        }
+        GraphImpl graphCasted = (GraphImpl) graph;
+        if (!graphCasted.getAdjacencyMatrix().containsKey(from)
+                || !graphCasted.getAdjacencyMatrix().containsKey(to)) {
+            throw new IllegalArgumentException();
+        }
         LinkedList<Integer> stack = new LinkedList<>();
         Set<Integer> isVisited = new HashSet<>();
 

@@ -24,6 +24,9 @@ public class Task009Impl implements Task009 {
      */
     @Override
     public Collection<String> countWords(File sourceFile) {
+        if (sourceFile == null) {
+            throw new IllegalArgumentException();
+        }
         Set<String> setOfWords = new TreeSet<String>(String.CASE_INSENSITIVE_ORDER);
         int index = 0;
         try {

@@ -86,7 +86,8 @@ public class Task002Impl implements Task002 {
                 || sourceString.equals("") || separator.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = sourceString.substring(sourceString.indexOf(separator) + 1);
+        String result = sourceString.substring(sourceString.indexOf(separator)
+                + separator.length());
         return result.trim();
     }
 
