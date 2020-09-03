@@ -3,6 +3,7 @@ package com.epam.university.java.core.task015;
 import com.epam.university.java.core.task013.Vertex;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -250,6 +251,12 @@ public class Task015Impl implements Task015 {
     private Collection<PointImpl> getIntersections2(PointImpl[] firstSquare,
                                                      PointImpl[] secondSquare) {
         System.out.println("I was born");
+        System.out.println("ELLE");
+
+        List<Integer> objects = Arrays.asList(1, 2, 3, 4);
+        System.out.println(objects.getClass().getName());
+        System.out.println("SHIFT");
+
         List<PointImpl> intersections = new ArrayList<>();
         for (int i = 0; i < firstSquare.length; i++) {
             int j;
@@ -296,6 +303,8 @@ public class Task015Impl implements Task015 {
                 }
             }
         }
+
+
 
         System.out.println("----");
         for (PointImpl each : intersections) {
