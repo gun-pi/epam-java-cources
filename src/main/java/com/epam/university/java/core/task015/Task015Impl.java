@@ -1,11 +1,7 @@
 package com.epam.university.java.core.task015;
 
-import com.epam.university.java.core.task013.Vertex;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -32,10 +28,14 @@ public class Task015Impl implements Task015 {
      */
     @Override
     public double getArea(Square first, Square second) {
-        boolean regExpFirstX = Double.compare(first.getFirst().getX(), first.getSecond().getX()) != 0;
-        boolean regExpFirstY = Double.compare(first.getFirst().getY(), first.getSecond().getY()) != 0;
-        boolean regExpSecondX = Double.compare(second.getFirst().getX(), second.getSecond().getX()) != 0;
-        boolean regExpSecondY = Double.compare(second.getFirst().getY(), second.getSecond().getY()) != 0;
+        boolean regExpFirstX = Double.compare(first.getFirst().getX(),
+                first.getSecond().getX()) != 0;
+        boolean regExpFirstY = Double.compare(first.getFirst().getY(),
+                first.getSecond().getY()) != 0;
+        boolean regExpSecondX = Double.compare(second.getFirst().getX(),
+                second.getSecond().getX()) != 0;
+        boolean regExpSecondY = Double.compare(second.getFirst().getY(),
+                second.getSecond().getY()) != 0;
 
         if (regExpFirstX && regExpFirstY && regExpSecondX && regExpSecondY) {
             return getIntersectionOfSimpleSquares(first, second);
@@ -44,21 +44,28 @@ public class Task015Impl implements Task015 {
         PointImpl[] firstSquare = getSquareCoordinates(first);
         PointImpl[] secondSquare = getSquareCoordinates(second);
 
-        Set<PointImpl> pointsAndIntersections = new HashSet<>();
+        Set<PointImpl> setOfPoints = new HashSet<>();
 
-        pointsAndIntersections.addAll(getPointsInsideSquare(firstSquare, secondSquare));
-        pointsAndIntersections.addAll(getPointsInsideSquare(secondSquare, firstSquare));
-        pointsAndIntersections.addAll(getIntersections(firstSquare, secondSquare));
+        setOfPoints.addAll(getPointsInsideFirstSquare(firstSquare, secondSquare));
+        setOfPoints.addAll(getPointsInsideFirstSquare(secondSquare, firstSquare));
+        setOfPoints.addAll(getIntersections(firstSquare, secondSquare));
 
-        if (pointsAndIntersections.size() < 3) {
+        if (setOfPoints.size() < 3) {
             return 0;
-        } else if (pointsAndIntersections.size() == 3) {
-            return triangleSquare(pointsAndIntersections.toArray(new PointImpl[3]));
+        } else if (setOfPoints.size() == 3) {
+            return getAreaOfTriangle(setOfPoints.toArray(new PointImpl[3]));
         }
 
-        return getPolygonSquare(pointsAndIntersections);
+        return getAreaOfPolygon(setOfPoints);
     }
 
+    /**
+     * Find area of intersection of squares that don't have equal coordinates.
+     *
+     * @param first first square
+     * @param second second square
+     * @return value of area
+     */
     public double getIntersectionOfSimpleSquares(Square first, Square second) {
         first = sortSquarePoints(first);
         second = sortSquarePoints(second);
@@ -79,37 +86,42 @@ public class Task015Impl implements Task015 {
         }
     }
 
-    public Square sortSquarePoints (Square square) {
+    /**
+     * Sort points of square.
+     *
+     * @param square square with unsorted points
+     * @return sorted square
+     */
+    public Square sortSquarePoints(Square square) {
         //check if the square has same X or Y in first and second points
         boolean expX = Double.compare(square.getFirst().getX(), square.getSecond().getX()) != 0;
         boolean expY = Double.compare(square.getFirst().getY(), square.getSecond().getY()) != 0;
 
         if (square.getFirst().getY() > square.getSecond().getY()
                 && expX && expY) {
-            Square temp = new SquareImpl();
-
+            double bottomRightX = square.getSecond().getX();
+            final double bottomRightY = square.getSecond().getY();
             double topLeftX = square.getFirst().getX();
             double topLeftY = square.getFirst().getY();
-
-            double bottomRightX = square.getSecond().getX();
-            double bottomRightY = square.getSecond().getY();
-
-            Point bottomLeft = new PointImpl();
-            bottomLeft.setX(topLeftX);
-            bottomLeft.setY(bottomRightY);
 
             Point topRight = new PointImpl();
             topRight.setX(bottomRightX);
             topRight.setY(topLeftY);
+            Point bottomLeft = new PointImpl();
+            bottomLeft.setX(topLeftX);
+            bottomLeft.setY(bottomRightY);
 
+            Square temp = new SquareImpl();
             temp.setFirst(bottomLeft);
             temp.setSecond(topRight);
 
             return temp;
         } else if (!expX) {
             double newFirstAndSecondY = (square.getFirst().getY() + square.getSecond().getY()) / 2;
-            double newFirstX = square.getFirst().getX() - (square.getFirst().getY() - square.getSecond().getY()) / 2;
-            double newSecondX = square.getFirst().getX() + (square.getFirst().getY() - square.getSecond().getY()) / 2;
+            double newFirstX = square.getFirst().getX()
+                    - (square.getFirst().getY() - square.getSecond().getY()) / 2;
+            double newSecondX = square.getFirst().getX()
+                    + (square.getFirst().getY() - square.getSecond().getY()) / 2;
 
             Point newFirst = new PointImpl(newFirstX, newFirstAndSecondY);
             Point newSecond = new PointImpl(newSecondX, newFirstAndSecondY);
@@ -120,7 +132,7 @@ public class Task015Impl implements Task015 {
         }
     }
 
-    private PointImpl[] getSquareCoordinates (Square square) {
+    private PointImpl[] getSquareCoordinates(Square square) {
         PointImpl[] squareCoordinates = new PointImpl[4];
 
         square = sortSquarePoints(square);
@@ -160,12 +172,13 @@ public class Task015Impl implements Task015 {
         return squareCoordinates;
     }
 
-    private List<PointImpl> getPointsInsideSquare(PointImpl[] insideSquare, PointImpl[] pointsOfThisSquare) {
+    private List<PointImpl> getPointsInsideFirstSquare(PointImpl[] insideSquare,
+                                                       PointImpl[] pointsOfThisSquare) {
         List<PointImpl> list = new ArrayList<>();
 
-        for (int i = 0; i < pointsOfThisSquare.length; i++) {
-            double xOfPoint = pointsOfThisSquare[i].getX();
-            double yOfPoint = pointsOfThisSquare[i].getY();
+        for (PointImpl point : pointsOfThisSquare) {
+            double xOfPoint = point.getX();
+            double yOfPoint = point.getY();
 
             for (int j = 0; j < insideSquare.length; j++) {
                 double[] xOfVectors = new double[4];
@@ -198,7 +211,7 @@ public class Task015Impl implements Task015 {
                 }
 
                 if (countOfMinuses == 4) {
-                    list.add(pointsOfThisSquare[i]);
+                    list.add(point);
                 }
 
             }
@@ -207,21 +220,21 @@ public class Task015Impl implements Task015 {
         return list;
     }
 
-
     private Collection<PointImpl> getIntersections(PointImpl[] firstSquare,
                                                    PointImpl[] secondSquare) {
-        System.out.println("I was born");
         List<PointImpl> resultList = new ArrayList<>();
+
         for (int i = 0; i < firstSquare.length; i++) {
             int j = i == firstSquare.length - 1 ? 0 : i + 1;
             PointImpl aPoint = firstSquare[i];
             PointImpl bPoint = firstSquare[j];
+
             for (int k = 0; k < secondSquare.length; k++) {
                 int l = k == secondSquare.length - 1 ? 0 : k + 1;
                 PointImpl cPoint = secondSquare[k];
                 PointImpl dPoint = secondSquare[l];
 
-                double devider = (aPoint.getX() - bPoint.getX()) * (dPoint.getY() - cPoint.getY())
+                double divider = (aPoint.getX() - bPoint.getX()) * (dPoint.getY() - cPoint.getY())
                         - (aPoint.getY() - bPoint.getY()) * (dPoint.getX() - cPoint.getX());
 
                 double dividendA = (aPoint.getX() - cPoint.getX()) * (dPoint.getY() - cPoint.getY())
@@ -230,138 +243,51 @@ public class Task015Impl implements Task015 {
                 double dividendB = (aPoint.getX() - bPoint.getX()) * (aPoint.getY() - cPoint.getY())
                         - (aPoint.getY() - bPoint.getY()) * (aPoint.getX() - cPoint.getX());
 
-                double resultA = dividendA / devider;
-                double resultB = dividendB / devider;
+                double resultA = dividendA / divider;
+                double resultB = dividendB / divider;
 
                 if (resultA >= 0 && resultA <= 1 && resultB >= 0 && resultB <= 1) {
                     double interX = aPoint.getX() + resultA * (bPoint.getX() - aPoint.getX());
                     double interY = aPoint.getY() + resultA * (bPoint.getY() - aPoint.getY());
 
                     resultList.add(new PointImpl(interX, interY));
-                    //System.out.println(interX + " " + interY);
                 }
 
             }
         }
-
 
         return resultList;
     }
 
-    private Collection<PointImpl> getIntersections2(PointImpl[] firstSquare,
-                                                     PointImpl[] secondSquare) {
-        System.out.println("I was born");
-        System.out.println("ELLE");
 
-        List<Integer> objects = Arrays.asList(1, 2, 3, 4);
-        System.out.println(objects.getClass().getName());
-        System.out.println("SHIFT");
-
-        List<PointImpl> intersections = new ArrayList<>();
-        for (int i = 0; i < firstSquare.length; i++) {
-            int j;
-
-            if (i == firstSquare.length - 1) {
-                j = 0;
-            } else {
-                j = i + 1;
-            }
-
-            PointImpl aPointOfFirstSquare = firstSquare[i];
-            PointImpl bPointOfFirstSquare = firstSquare[j];
-
-            for (int k = 0; k < secondSquare.length; k++) {
-                int l;
-
-                if (k == firstSquare.length - 1) {
-                    l = 0;
-                } else {
-                    l = k + 1;
-                }
-
-                PointImpl aPointOfSecondSquare = secondSquare[k];
-                PointImpl bPointOfSecondSquare = secondSquare[l];
-
-                double devider = (aPointOfFirstSquare.getX() - bPointOfFirstSquare.getX()) * (bPointOfSecondSquare.getY() - aPointOfSecondSquare.getY())
-                        - (aPointOfFirstSquare.getY() - bPointOfFirstSquare.getY()) * (bPointOfSecondSquare.getX() - aPointOfSecondSquare.getX());
-
-                double dividendA = (aPointOfFirstSquare.getX() - aPointOfSecondSquare.getX()) * (bPointOfSecondSquare.getY() - aPointOfSecondSquare.getY())
-                        - (aPointOfFirstSquare.getY() - aPointOfSecondSquare.getY()) * (bPointOfSecondSquare.getX() - aPointOfSecondSquare.getX());
-
-                double dividendB = (aPointOfFirstSquare.getX() - bPointOfFirstSquare.getX()) * (aPointOfFirstSquare.getY() - aPointOfSecondSquare.getY())
-                        - (aPointOfFirstSquare.getY() - bPointOfFirstSquare.getY()) * (aPointOfFirstSquare.getX() - aPointOfSecondSquare.getX());
-
-                double resultA = dividendA / devider;
-                double resultB = dividendB / devider;
-
-                if (resultA >= 0 && resultA <= 1 && resultB >= 0 && resultB <= 1) {
-                    double interX = aPointOfFirstSquare.getX() + resultA * (bPointOfFirstSquare.getX() - aPointOfFirstSquare.getX());
-                    double interY = aPointOfFirstSquare.getY() + resultA * (bPointOfFirstSquare.getY() - aPointOfFirstSquare.getY());
-
-                    intersections.add(new PointImpl(interX, interY));
-                    //System.out.println(interX + " " + interY);
-                }
-            }
-        }
-
-
-
-        System.out.println("----");
-        for (PointImpl each : intersections) {
-            System.out.println(each.getX() + " " + each.getY());
-        }
-        System.out.println("---");
-
-        return intersections;
-    }
-
-    public PointImpl calculateInterceptionPoint(PointImpl aPoint, PointImpl bPoint, PointImpl cPoint, PointImpl dPoint) {
-
-        double devider = (aPoint.getX() - bPoint.getX()) * (dPoint.getY() - cPoint.getY())
-                - (aPoint.getY() - bPoint.getY()) * (dPoint.getX() - cPoint.getX());
-
-        double dividendA = (aPoint.getX() - cPoint.getX()) * (dPoint.getY() - cPoint.getY())
-                - (aPoint.getY() - cPoint.getY()) * (dPoint.getX() - cPoint.getX());
-
-        double dividendB = (aPoint.getX() - bPoint.getX()) * (aPoint.getY() - cPoint.getY())
-                - (aPoint.getY() - bPoint.getY()) * (aPoint.getX() - cPoint.getX());
-
-        double resultA = dividendA / devider;
-        double resultB = dividendB / devider;
-
-        if (resultA >= 0 && resultA <= 1 && resultB >= 0 && resultB <= 1) {
-            double interX = aPoint.getX() + resultA * (bPoint.getX() - aPoint.getX());
-            double interY = aPoint.getY() + resultA * (bPoint.getY() - aPoint.getY());
-
-            return new PointImpl(interX, interY);
-        } else {
-            return null;
-        }
-    }
-
-    private double triangleSquare(PointImpl[] triangle) {
+    private double getAreaOfTriangle(PointImpl[] triangle) {
         double[] ribs = new double[3];
+
         for (int i = 0; i < triangle.length; i++) {
             int j = i == triangle.length - 1 ? 0 : i + 1;
+
             ribs[i] = Math.sqrt(Math.pow(triangle[j].getX() - triangle[i].getX(), 2)
                     + Math.pow(triangle[j].getY() - triangle[i].getY(), 2));
         }
 
-        double semiPer = 0.5 * (ribs[0] + ribs[1] + ribs[2]);
-        return Math.sqrt(semiPer * (semiPer - ribs[0]) * (semiPer - ribs[1])
-                * (semiPer - ribs[2]));
+        double semiPerimeter = 0.5 * (ribs[0] + ribs[1] + ribs[2]);
+
+        return Math.sqrt(semiPerimeter * (semiPerimeter - ribs[0]) * (semiPerimeter - ribs[1])
+                * (semiPerimeter - ribs[2]));
     }
 
-    private double getPolygonSquare(Collection<PointImpl> polygon) {
+    private double getAreaOfPolygon(Collection<PointImpl> polygon) {
         ArrayList<PointImpl> list = new ArrayList<>(polygon);
         LinkedList<PointImpl> ordered = new LinkedList<>();
         ordered.add(list.remove(0));
+
         while (!list.isEmpty()) {
             if (list.size() == 1) {
                 ordered.add(list.remove(0));
                 break;
             }
-            label:
+
+            POINT:
             for (int i = 0; i < list.size(); i++) {
                 double xOfA = ordered.getLast().getX();
                 double yOfA = ordered.getLast().getY();
@@ -373,24 +299,31 @@ public class Task015Impl implements Task015 {
                     if (j == i) {
                         continue;
                     }
+
                     double xOfC = list.get(j).getX();
                     double yOfC = list.get(j).getY();
+
                     double a = (xOfB - xOfA) * (yOfC - yOfB);
                     double b = (yOfB - yOfA) * (xOfC - xOfB);
+
                     double result = a - b;
+
                     if (result > 0) {
-                        continue label;
+                        continue POINT;
                     }
                 }
                 ordered.add(list.remove(i));
             }
         }
-        double square = 0.0;
+
+        double area = 0.0;
         PointImpl main = ordered.remove(0);
+
         for (int i = 0; i < ordered.size() - 1; i++) {
-            square += triangleSquare(new PointImpl[]{main, ordered.get(i), ordered.get(i + 1)});
+            area += getAreaOfTriangle(new PointImpl[]{main, ordered.get(i), ordered.get(i + 1)});
         }
-        return square;
+
+        return area;
     }
 
 }
