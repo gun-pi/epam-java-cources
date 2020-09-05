@@ -69,7 +69,7 @@ public class Task029Impl implements Task029 {
             int j = 0;
             POINT:
             while (j <= 10 - len) {
-                int k = j;
+                int k;
                 for (k = j; k < j + len; k++) {
                     if (ch[i][k] == limiter) {
                         break;
@@ -113,7 +113,7 @@ public class Task029Impl implements Task029 {
             int j = 0;
             POINT:
             while (j <= 10 - len) {
-                int k = j;
+                int k;
                 for (k = j; k < j + len; k++) {
                     if (ch[k][i] == limiter) {
                         break;
