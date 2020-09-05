@@ -60,7 +60,7 @@ public class Task029Impl implements Task029 {
      * @param ch crossword as arrays
      * @param word word
      * @param limiter limiter
-     * @return is it ok
+     * @return is it ok to put the word
      */
     public boolean placeWordHorizontally(char[][] ch, String word, char limiter) {
         int len = word.length();
@@ -105,7 +105,7 @@ public class Task029Impl implements Task029 {
      * @param ch crossword as arrays
      * @param word word
      * @param limiter limiter
-     * @return is it ok
+     * @return is it ok to put the word
      */
     public boolean placeWordVertically(char[][] ch, String word, char limiter) {
         int len = word.length();
