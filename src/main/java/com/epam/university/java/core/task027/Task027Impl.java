@@ -31,6 +31,10 @@ public class Task027Impl implements Task027 {
      */
     @Override
     public Collection<Integer> extract(String sourceString) {
+        if (sourceString == null) {
+            throw new IllegalArgumentException();
+        }
+
         int i = 1;
         while (i < sourceString.length()) {
             ArrayList<Integer> list = new ArrayList<>();

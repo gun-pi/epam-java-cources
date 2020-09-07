@@ -23,6 +23,10 @@ public class Task021Impl implements Task021 {
      */
     @Override
     public Point calculate(Collection<Point> minePositions) {
+        if (minePositions == null || minePositions.size() == 0) {
+            throw new IllegalArgumentException();
+        }
+
         Point[] arrayOfVertices = minePositions.toArray(new Point[minePositions.size()]);
 
         Point point = checkAngles(arrayOfVertices);

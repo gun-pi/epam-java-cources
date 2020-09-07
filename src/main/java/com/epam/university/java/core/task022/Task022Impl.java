@@ -13,6 +13,10 @@ public class Task022Impl implements Task022 {
      */
     @Override
     public int maxSum(Collection<Integer> numbers) {
+        if (numbers == null || numbers.size() == 0) {
+            throw new IllegalArgumentException();
+        }
+
         ArrayList<Integer> array = new ArrayList<>(numbers);
         Integer min = 999999999;
         int sum = 0;
@@ -39,8 +43,12 @@ public class Task022Impl implements Task022 {
      */
     @Override
     public int minSum(Collection<Integer> numbers) {
+        if (numbers == null || numbers.size() == 0) {
+            throw new IllegalArgumentException();
+        }
+
         ArrayList<Integer> array = new ArrayList<>(numbers);
-        Integer max = 0;
+        Integer max = -999999999;
         int sum = 0;
         for (Integer each : array) {
             if (each > max) {

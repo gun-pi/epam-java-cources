@@ -21,6 +21,9 @@ public class Task020Impl implements Task020 {
      */
     @Override
     public int calculate(Collection<String> stones) {
+        if (stones == null || stones.size() == 0) {
+            throw new IllegalArgumentException();
+        }
 
         Operationable operation;
         operation = (ztonez) -> {

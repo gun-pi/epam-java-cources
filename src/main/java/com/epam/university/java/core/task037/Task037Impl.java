@@ -15,6 +15,9 @@ public class Task037Impl implements Task037 {
      */
     @Override
     public Collection<String> switcher(Callable<String> ticker, Callable<String> tacker) {
+        if (ticker == null || tacker == null) {
+            throw new IllegalArgumentException();
+        }
         Thread t = Thread.currentThread();
         Collection<String> collection = new ArrayList<>();
 

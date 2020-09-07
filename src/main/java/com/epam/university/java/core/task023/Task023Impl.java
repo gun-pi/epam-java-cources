@@ -17,6 +17,10 @@ public class Task023Impl implements Task023 {
      */
     @Override
     public String extract(String phoneString) {
+        if (phoneString == null) {
+            throw new IllegalArgumentException();
+        }
+
         Pattern p = Pattern.compile(
                 "(\\+7|8)\\s?[\\(-]?(\\d{3})[\\)-]?\\s?\\d{3}-?\\s?\\d{2}-?\\s?\\d{2}");
         Matcher m = p.matcher(phoneString);

@@ -23,6 +23,10 @@ public class Task024Impl implements Task024 {
      */
     @Override
     public Collection<String> getWordsCount(String source) {
+        if (source == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (source.equals("")) {
             return Collections.emptyList();
         }
@@ -40,6 +44,10 @@ public class Task024Impl implements Task024 {
      * Split a given string.
      */
     public static LinkedList<String> splitCamelCaseString(String s) {
+        if (s == null) {
+            throw new IllegalArgumentException();
+        }
+
         LinkedList<String> result = new LinkedList<String>();
         for (String w : s.split(
                 "(?<!(^|[A-ZА-ЯÜẞÖÄ]))(?=[A-ZА-ЯÜẞÖÄ])|(?<!^)(?=[A-ZА-ЯÜẞÖÄ][a-zа-яäöü])")) {
