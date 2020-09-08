@@ -25,7 +25,9 @@ public class Task034Impl implements Task034 {
         if (handler == null || filepath == null) {
             throw new IllegalArgumentException();
         }
+
         Person person = null;
+
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
@@ -35,6 +37,7 @@ public class Task034Impl implements Task034 {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return person;
     }
 
@@ -51,17 +54,17 @@ public class Task034Impl implements Task034 {
         }
 
         Person person = null;
+
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(
-                    PersonImpl.class,
-                    PhoneNumberImpl.class
-            );
+            JAXBContext jaxbContext = JAXBContext.newInstance(PersonImpl.class,
+                    PhoneNumberImpl.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            person = (Person) unmarshaller
-                    .unmarshal(new File(getClass().getResource(filepath).toURI()));
+            person = (Person) unmarshaller.unmarshal(
+                    new File(getClass().getResource(filepath).toURI()));
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         return person;
     }
 
@@ -79,15 +82,16 @@ public class Task034Impl implements Task034 {
 
         Person person = null;
         List<PhoneNumber> phoneNumbers = null;
-        String content = "";
+        String string = "";
         String localName = "";
 
         try {
             while (streamReader.hasNext()) {
                 final int event = streamReader.next();
+
                 switch (event) {
                     case XMLStreamConstants.CHARACTERS:
-                        content = streamReader.getText().trim();
+                        string = streamReader.getText().trim();
                         break;
 
                     case XMLStreamConstants.START_ELEMENT:
@@ -95,8 +99,8 @@ public class Task034Impl implements Task034 {
                         switch (localName) {
                             case "person":
                                 person = new PersonImpl();
-                                person.setId(Integer.parseInt(streamReader
-                                        .getAttributeValue("","id")));
+                                person.setId(Integer.parseInt(
+                                        streamReader.getAttributeValue("","id")));
                                 break;
                             case "person-phones":
                                 phoneNumbers = new ArrayList<>();
@@ -110,13 +114,13 @@ public class Task034Impl implements Task034 {
                         localName = streamReader.getLocalName();
                         switch (localName) {
                             case "first-name":
-                                person.setFirstName(content);
+                                person.setFirstName(string);
                                 break;
                             case "last-name":
-                                person.setLastName(content);
+                                person.setLastName(string);
                                 break;
                             case "person-phone":
-                                PhoneNumber phoneNumber = new PhoneNumberImpl(content);
+                                PhoneNumber phoneNumber = new PhoneNumberImpl(string);
                                 phoneNumbers.add(phoneNumber);
                                 break;
                             case "person-phones":
@@ -126,6 +130,7 @@ public class Task034Impl implements Task034 {
                                 break;
                         }
                         break;
+
                     default:
                         break;
                 }
@@ -133,6 +138,7 @@ public class Task034Impl implements Task034 {
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
+
         return person;
     }
 }

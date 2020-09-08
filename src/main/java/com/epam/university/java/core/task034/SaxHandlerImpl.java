@@ -1,22 +1,20 @@
 package com.epam.university.java.core.task034;
 
 import org.xml.sax.Attributes;
-import org.xml.sax.SAXException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class SaxHandlerImpl extends SaxHandler {
     private Person person;
     private final Collection<PhoneNumber> phoneNumbers = new ArrayList<>();
-    private String content;
+    private String string;
 
     public Person getPerson() {
         return person;
     }
 
     @Override
-    public void startElement(String uri, String localName, String qName, Attributes attributes)
-            throws SAXException {
+    public void startElement(String uri, String localName, String qName, Attributes attributes) {
         if (qName.equals("person")) {
             person = new PersonImpl();
             person.setId(Integer.parseInt(attributes.getValue("id")));
@@ -24,16 +22,16 @@ public class SaxHandlerImpl extends SaxHandler {
     }
 
     @Override
-    public void endElement(String uri, String localName, String qName) throws SAXException {
+    public void endElement(String uri, String localName, String qName) {
         switch (qName) {
             case "first-name":
-                person.setFirstName(content);
+                person.setFirstName(string);
                 break;
             case "last-name":
-                person.setLastName(content);
+                person.setLastName(string);
                 break;
             case "person-phone":
-                PhoneNumber phoneNumber = new PhoneNumberImpl(content);
+                PhoneNumber phoneNumber = new PhoneNumberImpl(string);
                 phoneNumbers.add(phoneNumber);
                 break;
             case "person-phones":
@@ -45,7 +43,7 @@ public class SaxHandlerImpl extends SaxHandler {
     }
 
     @Override
-    public void characters(char[] ch, int start, int length) throws SAXException {
-        content = String.valueOf(ch, start, length);
+    public void characters(char[] ch, int start, int length) {
+        string = String.valueOf(ch, start, length);
     }
 }
