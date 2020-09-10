@@ -4,6 +4,9 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class Task042Impl implements Task042 {
+    final static LocalTime morningTime = LocalTime.parse("09:00");
+    final static LocalTime eveningTime = LocalTime.parse("18:00");
+
     /**
      * <p>
      * Alexander is a businessman. He wants to implement an automatic system informing
@@ -42,24 +45,13 @@ public class Task042Impl implements Task042 {
             throw new IllegalArgumentException();
         }
 
-        final LocalTime morningTime = LocalTime.parse("09:00");
-        final LocalTime eveningTime = LocalTime.parse("18:00");
-
         LocalTime currentLocalTime = LocalTime.parse(currentTime.substring(0,5));
 
         LocalTime temp = currentLocalTime.compareTo(LocalTime.parse("09:00")) >= 0
                 ? currentLocalTime : morningTime;
 
         if (schedule.size() == 0) {
-            if (temp.compareTo(eveningTime) < 0 && temp.compareTo(currentLocalTime) == 0) {
-                return new AvailableResponse();
-            } else if (temp.compareTo(eveningTime) < 0) {
-                TimeProposalResponse tempClass = new TimeProposalResponse();
-                tempClass.setProposedTime(temp.toString());
-                return tempClass;
-            } else {
-                return new BusyResponse();
-            }
+            return getAnswer(temp, currentLocalTime);
         }
 
         for (String each :schedule) {
@@ -71,7 +63,11 @@ public class Task042Impl implements Task042 {
             }
         }
 
-        if (temp.compareTo(currentLocalTime) == 0 && temp.compareTo(eveningTime) < 0) {
+        return getAnswer(temp, currentLocalTime);
+    }
+
+    public BookingResponse getAnswer(LocalTime temp, LocalTime currentLocalTime) {
+        if (temp.compareTo(eveningTime) < 0 && temp.compareTo(currentLocalTime) == 0) {
             return new AvailableResponse();
         } else if (temp.compareTo(eveningTime) < 0) {
             TimeProposalResponse tempClass = new TimeProposalResponse();
