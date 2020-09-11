@@ -4,8 +4,8 @@ import java.time.LocalTime;
 import java.util.List;
 
 public class Task042Impl implements Task042 {
-    final static LocalTime morningTime = LocalTime.parse("09:00");
-    final static LocalTime eveningTime = LocalTime.parse("18:00");
+    public final LocalTime morningTime = LocalTime.parse("09:00");
+    public final LocalTime eveningTime = LocalTime.parse("18:00");
 
     /**
      * <p>
@@ -66,6 +66,12 @@ public class Task042Impl implements Task042 {
         return getAnswer(temp, currentLocalTime);
     }
 
+    /**
+     * Separate method that help to get answer.
+     * @param temp temp time
+     * @param currentLocalTime current time
+     * @return answer
+     */
     public BookingResponse getAnswer(LocalTime temp, LocalTime currentLocalTime) {
         if (temp.compareTo(eveningTime) < 0 && temp.compareTo(currentLocalTime) == 0) {
             return new AvailableResponse();
