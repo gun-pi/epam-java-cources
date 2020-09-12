@@ -21,8 +21,6 @@ public class Task039Impl implements Task039 {
             queue.add(new Node(entry.getKey(), entry.getValue()));
         }
 
-        List<Node> nodes = new LinkedList<>(queue);
-
         while (queue.size() > 1) {
             Node first = queue.poll();
             Node second = queue.poll();
@@ -33,7 +31,6 @@ public class Task039Impl implements Task039 {
             node.setRight(second);
 
             queue.add(node);
-            nodes.add(node);
         }
 
         Node left = queue.poll();
@@ -50,9 +47,6 @@ public class Task039Impl implements Task039 {
             root = left;
         }
 
-        nodes.add(root);
-
-        nodes.sort((o1, o2) -> o2.getValue() - o1.getValue());
 
         List<Character> characters = new ArrayList<>(charFrequencies.keySet());
 
@@ -71,16 +65,11 @@ public class Task039Impl implements Task039 {
         Queue<Node> queue = new PriorityQueue<>(
                 charFrequencies.size(), comparator);
 
-
-        final Queue<Node> tempQueue = new PriorityQueue<>(charFrequencies.size(), comparator);
-
         for (Map.Entry<Character, Integer> entry : charFrequencies.entrySet()) {
             queue.add(new Node(entry.getKey(), entry.getValue()));
         }
 
-        List<Node> nodes = new LinkedList<>(queue);
-
-        while (fullOfNull(queue)) {
+        while (queue.size() > 1) {
             Node first = queue.poll();
             Node second = queue.poll();
 
@@ -91,7 +80,6 @@ public class Task039Impl implements Task039 {
             node.setRight(second);
 
             queue.add(node);
-            nodes.add(node);
         }
 
         Node left = queue.poll();
@@ -108,11 +96,7 @@ public class Task039Impl implements Task039 {
             root = left;
         }
 
-        nodes.add(root);
         rootTemp = root;
-        tempQueue.addAll(nodes);
-
-        nodes.sort((o1, o2) -> o2.getValue() - o1.getValue());
 
         List<Character> characters = new ArrayList<>(charFrequencies.keySet());
 
@@ -164,7 +148,7 @@ public class Task039Impl implements Task039 {
             } else {
                 curr = curr.getRight();
             }
-            // reached leaf node
+
             Node left = curr.getLeft();
             Node right = curr.getRight();
             if (left == null && right == null) {
@@ -174,17 +158,6 @@ public class Task039Impl implements Task039 {
         }
 
         return decoded.toString();
-    }
-
-    private boolean fullOfNull(Queue<Node> queue) {
-        int counter = 0;
-        for (Node node : queue) {
-            if (node.getValueChar() == null) {
-                counter++;
-            }
-        }
-
-        return counter != queue.size();
     }
 
     public static class Node {
