@@ -3,7 +3,6 @@ package com.epam.university.java.core.task039;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -14,44 +13,7 @@ public class Task039Impl implements Task039 {
 
     @Override
     public Map<Character, String> getEncoding(Map<Character, Integer> charFrequencies) {
-        Queue<Node> queue = new PriorityQueue<>(
-                charFrequencies.size(), new NodeEqualComparator());
-
-        for (Map.Entry<Character, Integer> entry : charFrequencies.entrySet()) {
-            queue.add(new Node(entry.getKey(), entry.getValue()));
-        }
-
-        while (queue.size() > 1) {
-            Node first = queue.poll();
-            Node second = queue.poll();
-
-            assert second != null;
-            Node node = new Node(null, first.getValue() + second.getValue());
-            node.setLeft(first);
-            node.setRight(second);
-
-            queue.add(node);
-        }
-
-        Node left = queue.poll();
-        Node right = queue.poll();
-
-        Node root;
-        if (left != null && right != null) {
-            root = new Node(null, left.getValue() + right.getValue());
-            root.setLeft(left);
-            root.setRight(right);
-        } else if (left == null) {
-            root = right;
-        } else {
-            root = left;
-        }
-
-
-        List<Character> characters = new ArrayList<>(charFrequencies.keySet());
-
-
-        return new HashMap<>(getStringFromTree(characters, root, ""));
+        return getEncoding(charFrequencies, new NodeComparator());
     }
 
     /**
@@ -62,8 +24,7 @@ public class Task039Impl implements Task039 {
      */
     public Map<Character, String> getEncoding(Map<Character, Integer> charFrequencies,
                                               Comparator<Node> comparator) {
-        Queue<Node> queue = new PriorityQueue<>(
-                charFrequencies.size(), comparator);
+        Queue<Node> queue = new PriorityQueue<>(charFrequencies.size(), comparator);
 
         for (Map.Entry<Character, Integer> entry : charFrequencies.entrySet()) {
             queue.add(new Node(entry.getKey(), entry.getValue()));
@@ -96,36 +57,18 @@ public class Task039Impl implements Task039 {
             root = left;
         }
 
-        rootTemp = root;
-
-        List<Character> characters = new ArrayList<>(charFrequencies.keySet());
-
-
-        return new HashMap<>(getStringFromTree(characters, root, ""));
-    }
-
-    private Map<Character, String> getStringFromTree(List<Character> characters,
-                                                     Node root, String s) {
-        StringBuilder code = new StringBuilder(s);
-        if (root.getLeft() == null
-                && root.getRight() == null
-                && characters.contains(root.getValueChar())) {
-
-            Map<Character, String> map = new HashMap<>();
-            map.put(root.getValueChar(), code.toString());
-            return map;
+        if (comparator instanceof NodeAnotherComparator) {
+            rootTemp = root;
         }
 
-        Map<Character, String> res = new HashMap<>();
-        res.putAll(getStringFromTree(characters, root.getLeft(), s + "0"));
-        res.putAll(getStringFromTree(characters, root.getRight(), s + "1"));
-        return res;
+        return getCodedCharacterMap(new ArrayList<>(charFrequencies.keySet()), root, "");
     }
+
 
     @Override
     public String getEncodedString(Map<Character, Integer> charFrequencies, String string) {
         Map<Character, String> stringMap = getEncoding(charFrequencies,
-                new NodeNotEqualComparator());
+                new NodeAnotherComparator());
         char[] encoded = string.toCharArray();
         StringBuilder sb = new StringBuilder();
         for (char c : encoded) {
@@ -137,7 +80,7 @@ public class Task039Impl implements Task039 {
     @Override
     public String getDecodedString(Map<Character, Integer> charFrequencies, String encodedString) {
         Map<Character, String> stringMap = getEncoding(charFrequencies,
-                new NodeNotEqualComparator());
+                new NodeAnotherComparator());
         StringBuilder decoded = new StringBuilder();
 
         Node curr = rootTemp;
@@ -151,6 +94,7 @@ public class Task039Impl implements Task039 {
 
             Node left = curr.getLeft();
             Node right = curr.getRight();
+
             if (left == null && right == null) {
                 decoded.append(curr.getValueChar());
                 curr = rootTemp;
@@ -158,6 +102,22 @@ public class Task039Impl implements Task039 {
         }
 
         return decoded.toString();
+    }
+
+    private Map<Character, String> getCodedCharacterMap(List<Character> characters,
+                                                        Node root, String s) {
+        StringBuilder code = new StringBuilder(s);
+        Map<Character, String> resultMap = new HashMap<>();
+
+        if (root.getLeft() == null && root.getRight() == null
+                && characters.contains(root.getValueChar())) {
+            resultMap.put(root.getValueChar(), code.toString());
+            return resultMap;
+        }
+
+        resultMap.putAll(getCodedCharacterMap(characters, root.getLeft(), s + "0"));
+        resultMap.putAll(getCodedCharacterMap(characters, root.getRight(), s + "1"));
+        return resultMap;
     }
 
     public static class Node {
@@ -203,7 +163,7 @@ public class Task039Impl implements Task039 {
         }
     }
 
-    public static class NodeEqualComparator implements Comparator<Node> {
+    public static class NodeComparator implements Comparator<Node> {
         @Override
         public int compare(Node o1, Node o2) {
             if (o1.getValue() == o2.getValue()
@@ -220,7 +180,7 @@ public class Task039Impl implements Task039 {
         }
     }
 
-    public static class NodeNotEqualComparator implements Comparator<Node> {
+    public static class NodeAnotherComparator implements Comparator<Node> {
         @Override
         public int compare(Node o1, Node o2) {
             if (o1.getValue() == o2.getValue()
