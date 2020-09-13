@@ -25,21 +25,21 @@ public class Task026Impl implements Task026 {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < sourceStringArray.length; i++) {
-            if (sourceStringArray[i].matches("[\\s!?.,-]")) {
+            if (sourceStringArray[i].matches("[)'\\s!?.,-]")) {
                 result.append(sourceStringArray[i]);
                 continue;
             }
             for (int j = 0; j < lowerCaseAlphabetArray.length; j++) {
                 if (sourceStringArray[i].equals(lowerCaseAlphabetArray[j])) {
                     int index = j + shift;
-                    if (index > 25) {
+                    while (index > 25) {
                         index -= 26;
                     }
                     result.append(lowerCaseAlphabetArray[index]);
                     break;
                 } else if (sourceStringArray[i].equals(upperCaseAlphabetArray[j])) {
                     int index = j + shift;
-                    if (index > 25) {
+                    while (index > 25) {
                         index -= 26;
                     }
                     result.append(upperCaseAlphabetArray[index]);
@@ -71,21 +71,21 @@ public class Task026Impl implements Task026 {
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < ourStringArray.length; i++) {
-            if (ourStringArray[i].matches("[\\s!?.,-]")) {
+            if (ourStringArray[i].matches("[)'\\s!?.,-]")) {
                 result.append(ourStringArray[i]);
                 continue;
             }
             for (int j = 0; j < lowerCaseAlphabet.length; j++) {
                 if (ourStringArray[i].equals(lowerCaseAlphabet[j])) {
                     int index = j - shift;
-                    if (index < 0) {
+                    while (index < 0) {
                         index += 26;
                     }
                     result.append(lowerCaseAlphabet[index]);
                     break;
                 } else if (ourStringArray[i].equals(upperCaseAlphabet[j])) {
                     int index = j - shift;
-                    if (index < 0) {
+                    while (index < 0) {
                         index += 26;
                     }
                     result.append(upperCaseAlphabet[index]);

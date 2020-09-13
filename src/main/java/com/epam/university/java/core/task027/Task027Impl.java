@@ -38,19 +38,29 @@ public class Task027Impl implements Task027 {
         int i = 1;
         while (i < sourceString.length()) {
             ArrayList<Integer> list = new ArrayList<>();
-            int x = Integer.parseInt(sourceString.substring(0, i));
+            int x = 0;
+
+            if (i != sourceString.length() - 2) {
+                x = Integer.parseInt(sourceString.substring(0, i));
+            } else {
+                return new ArrayList<>();
+            }
+
             if (x == 0) {
                 return new ArrayList<>();
             }
             String test = "";
+
             while (test.length() < sourceString.length()) {
                 test += x;
                 list.add(x);
                 x++;
             }
+
             if (test.equals(sourceString)) {
                 return list;
             }
+
             i++;
         }
         return new ArrayList<>();
