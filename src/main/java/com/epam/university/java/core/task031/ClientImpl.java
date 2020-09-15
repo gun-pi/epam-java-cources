@@ -13,7 +13,7 @@ public class ClientImpl implements Client {
         try {
             out.write(message + "\n");
             out.flush();
-            Thread.sleep(50);
+            Thread.sleep(1);
         } catch (Exception e) {
             e.printStackTrace();
         }
