@@ -23,7 +23,7 @@ public class ClientImpl implements Client {
     @Override
     public void start() {
         try {
-            serverSocket = new Socket(InetAddress.getLocalHost(), 5555);
+            serverSocket = new Socket(InetAddress.getLocalHost(), 8080);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     serverSocket.getOutputStream());
             out = new BufferedWriter(outputStreamWriter);
