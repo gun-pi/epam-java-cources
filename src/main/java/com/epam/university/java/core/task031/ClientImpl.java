@@ -14,7 +14,7 @@ public class ClientImpl implements Client {
         try {
             out.write(message + "\n");
             out.flush();
-            Thread.sleep(1);
+            Thread.sleep(100);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -23,6 +23,7 @@ public class ClientImpl implements Client {
     @Override
     public void start() {
         try {
+            Thread.sleep(100);
             serverSocket = new Socket(InetAddress.getLocalHost(), 8080);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     serverSocket.getOutputStream());
