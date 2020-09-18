@@ -2,6 +2,7 @@ package com.epam.university.java.core.task031;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 
 public class ClientImpl implements Client {
@@ -22,7 +23,7 @@ public class ClientImpl implements Client {
     @Override
     public void start() {
         try {
-            serverSocket = new Socket("localhost", 6666);
+            serverSocket = new Socket(InetAddress.getLocalHost(), 5555);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     serverSocket.getOutputStream());
             out = new BufferedWriter(outputStreamWriter);
