@@ -24,7 +24,7 @@ public class ServerImpl implements Server {
     public void start() {
         Thread thread = new Thread(() -> {
             try {
-                serverSocket = new ServerSocket(8080);
+                serverSocket = new ServerSocket(8070);
                 while (true) {
                     Socket clientSocket = serverSocket.accept();
                     new Thread(() -> {

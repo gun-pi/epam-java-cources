@@ -24,7 +24,7 @@ public class ClientImpl implements Client {
     public void start() {
         try {
             Thread.sleep(100);
-            serverSocket = new Socket(InetAddress.getLocalHost(), 8080);
+            serverSocket = new Socket(InetAddress.getLocalHost(), 8070);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                     serverSocket.getOutputStream());
             out = new BufferedWriter(outputStreamWriter);
