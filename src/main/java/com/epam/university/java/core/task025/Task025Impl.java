@@ -22,6 +22,9 @@ public class Task025Impl implements Task025 {
         if (sourceMessage.equals("")) {
             return 0;
         }
+        if (sourceMessage.charAt(0) !='S') {
+            throw new IllegalArgumentException();
+        }
 
         String sos = "SOS";
         int k = 0;
