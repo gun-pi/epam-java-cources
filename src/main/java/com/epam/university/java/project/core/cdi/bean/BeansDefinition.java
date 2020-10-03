@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @XmlRootElement(name = "beans")
-public class BeanDefinitions {
+public class BeansDefinition {
     @XmlAnyElement(lax = true)
     private Collection<BeanDefinition> definitions = new ArrayList<>();
 
