@@ -17,8 +17,6 @@ public class BeanDefinitionRegistryImpl implements BeanDefinitionRegistry {
         registry.put(definition.getClassName(), definition);
         try {
             final Class<?> beanClass = Class.forName(definition.getClassName());
-            //todo
-            //registry.put(beanClass.getSuperclass().getName(), definition);
             for (Class<?> current : beanClass.getInterfaces()) {
                 if (current != null) {
                     registry.put(current.getName(), definition);

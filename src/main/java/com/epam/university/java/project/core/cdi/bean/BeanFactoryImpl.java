@@ -77,8 +77,6 @@ public class BeanFactoryImpl implements BeanFactory {
                     && singletons.containsKey(definition)) {
                 instance = (T) singletons.get(definition);
 
-                //todo
-                //return added
                 return instance;
             } else {
                 instance = beanClass.getDeclaredConstructor().newInstance();
@@ -122,7 +120,7 @@ public class BeanFactoryImpl implements BeanFactory {
                     Map<String, Object> itemMap = new HashMap<>();
                     for (MapDefinition.MapEntryDefinition entryDefinition
                             : mapDefinition.getValues()) {
-                        if(!isEmpty.test(entryDefinition.getValue())
+                        if (!isEmpty.test(entryDefinition.getValue())
                                 && !isEmpty.test(entryDefinition.getRef())) {
                             throw new RuntimeException();
                         }
@@ -137,18 +135,7 @@ public class BeanFactoryImpl implements BeanFactory {
                 }
             }
 
-            //todo
-            /*if (!isEmpty.test(definition.getPostConstruct())) {
-                beanClass.getDeclaredMethod(definition.getPostConstruct()).invoke(instance);
-            }*/
-
-            /*if (instance instanceof InitializingBean) {
-                final InitializingBean initializingBean = (InitializingBean) instance;
-                initializingBean.afterPropertiesSet();
-            }*/
-
             return instance;
-
         } catch (Exception e) {
             throw new RuntimeException();
         }
