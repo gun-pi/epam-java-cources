@@ -1,6 +1,5 @@
 package com.epam.university.java.project.core.cdi.bean;
 
-import com.epam.university.java.project.core.cdi.impl.io.XmlResource;
 import com.epam.university.java.project.core.cdi.io.Resource;
 
 import javax.xml.bind.JAXBContext;
@@ -23,10 +22,6 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
      */
     @Override
     public int loadBeanDefinitions(Resource resource) {
-        if (!(resource instanceof XmlResource)) {
-            return 0;
-        }
-
         try {
             final JAXBContext jaxbContext = JAXBContext.newInstance(
                     BeansDefinition.class,

@@ -12,11 +12,10 @@ import java.util.stream.Collectors;
 
 public class BeanFactoryImpl implements BeanFactory {
     private final BeanDefinitionRegistry beanDefinitionRegistry;
-    private final Map<BeanDefinition, Object> singletons;
+    private final Map<BeanDefinition, Object> singletons = new HashMap<>();
 
     public BeanFactoryImpl(BeanDefinitionRegistry beanDefinitionRegistry) {
         this.beanDefinitionRegistry = beanDefinitionRegistry;
-        singletons = new HashMap<>();
     }
 
     /**
