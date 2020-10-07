@@ -42,7 +42,14 @@ public class Task040Impl implements Task040 {
         return result;
     }
 
-    public int getScoreForStage (String[] frames, int i) {
+    /**
+     * Get score for a stage.
+     *
+     * @param frames frames
+     * @param i index
+     * @return result
+     */
+    public int getScoreForStage(String[] frames, int i) {
         int result = 0;
         if (frames[i].charAt(0) == 'X') {
             result += 10;
@@ -52,7 +59,7 @@ public class Task040Impl implements Task040 {
                     result += 10;
                 }
                 if ((i + 2) != frames.length && frames[i + 2].charAt(0) == 'X') {
-                    result +=10;
+                    result += 10;
                 }
             } else {
                 if (frames[i + 1].charAt(1) == '/') {
