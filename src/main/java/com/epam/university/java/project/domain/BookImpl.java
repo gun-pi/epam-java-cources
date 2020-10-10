@@ -95,7 +95,7 @@ public class BookImpl implements Book {
      */
     @Override
     public void setSerialNumber(String value) {
-        this.serialNumber = serialNumber;
+        this.serialNumber = value;
     }
 
     /**
