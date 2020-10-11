@@ -18,10 +18,11 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
     private BookEvent startEvent;
     @XmlAttribute(name = "startState")
     private BookStatus startState;
-    @XmlElement(name = "transition", type = StateMachineStateImpl.class)
-    private Collection<StateMachineState<BookStatus, BookEvent>> states;
     @XmlAttribute(name = "handler")
     private Class<? extends StateMachineEventHandler> handlerClass;
+    @XmlElement(name = "transition", type = StateMachineStateImpl.class)
+    private Collection<StateMachineState<BookStatus, BookEvent>> states;
+
 
     public StateMachineDefinitionImpl() {
         states = new ArrayList<>();

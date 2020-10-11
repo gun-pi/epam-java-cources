@@ -60,13 +60,14 @@ public class StateMachineManagerImpl implements StateMachineManager {
     public <S, E> StatefulEntity<S, E> handleEvent(StatefulEntity<S, E> entity, E event) {
         try {
             final StateMachineDefinition<S, E> definition = entity.getStateMachineDefinition();
-            final StateMachineEventHandler handler = definition.getHandlerClass().newInstance();
+            final StateMachineEventHandler handler = definition.getHandlerClass()
+                    .getDeclaredConstructor().newInstance();
             final Optional<StateMachineState<S, E>> optional
                     = definition.getStates()
                     .stream()
-                    .filter(n -> n.getFrom().equals(entity.getState()))
-                    .filter(n -> n.getOn().equals(event))
-                    .findFirst();
+                    .filter(x -> x.getFrom().equals(entity.getState()))
+                    .filter(x -> x.getOn().equals(event))
+                    .findAny();
             final String method;
             if (optional.isPresent()) {
                 method = optional.get().getMethodToCall();
@@ -74,8 +75,8 @@ public class StateMachineManagerImpl implements StateMachineManager {
                 return entity;
             }
             return (StatefulEntity<S, E>) Arrays.stream(handler.getClass().getDeclaredMethods())
-                    .filter(n -> n.getName().equals(method))
-                    .findFirst()
+                    .filter(x -> x.getName().equals(method))
+                    .findAny()
                     .get()
                     .invoke(handler, entity);
 

@@ -34,7 +34,7 @@ public class BookDaoXmlImpl implements BookDao {
     @Override
     public Book getBook(int id) {
         return books.stream()
-                .filter(n -> n.getId() == id)
+                .filter(x -> x.getId() == id)
                 .findAny()
                 .orElse(null);
     }

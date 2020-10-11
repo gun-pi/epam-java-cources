@@ -3,6 +3,8 @@ package com.epam.university.java.project.service;
 import com.epam.university.java.project.core.cdi.impl.io.XmlResource;
 import com.epam.university.java.project.core.cdi.io.Resource;
 import com.epam.university.java.project.core.state.machine.domain.StateMachineDefinition;
+import com.epam.university.java.project.core.state.machine.domain.StateMachineDefinitionImpl;
+import com.epam.university.java.project.core.state.machine.domain.StatefulEntity;
 import com.epam.university.java.project.core.state.machine.manager.StateMachineManager;
 import com.epam.university.java.project.domain.Book;
 import com.epam.university.java.project.domain.BookEvent;
@@ -13,7 +15,7 @@ import java.util.Collection;
 
 public class BookServiceImpl implements BookService {
     private BookDao bookDao;
-    private StateMachineManager stateMachineManager = new StateMachineManagerImpl();
+    private StateMachineManager stateMachineManager;
     private Resource xmlResource = new XmlResource(
             getClass().getResource("/project/DefaultBookStateMachineDefinition.xml").getFile());
 
@@ -24,10 +26,10 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book createBook() {
-        return (Book) stateMachineManager.handleEvent(
-                stateMachineManager.initStateMachine(bookDao.createBook(),
-                        (StateMachineDefinition<BookStatus, BookEvent>)
-                                stateMachineManager.loadDefinition(xmlResource)), BookEvent.CREATE);
+        StateMachineDefinition stateMachineDefinition = stateMachineManager.loadDefinition(xmlResource);
+        StatefulEntity newBook = stateMachineManager.initStateMachine(bookDao.createBook(),
+                stateMachineDefinition);
+        return (Book) stateMachineManager.handleEvent(newBook, BookEvent.CREATE);
     }
 
     /**
