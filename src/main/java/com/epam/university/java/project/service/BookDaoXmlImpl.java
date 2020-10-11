@@ -7,13 +7,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class BookDaoXmlImpl implements BookDao {
-    private Collection<Book> books;
+    private Collection<Book> books = new ArrayList<>();
     private int bookId;
-
-    public BookDaoXmlImpl() {
-        books = new ArrayList<>();
-    }
-
 
     /**
      * Create new book instance.

@@ -11,12 +11,8 @@ public class BookImpl implements Book {
     private Collection<String> authors;
     private String serialNumber;
     private LocalDate returnDate;
-    private BookStatus state;
+    private BookStatus state = BookStatus.DRAFT;
     private StateMachineDefinition<BookStatus, BookEvent> stateMachineDefinition;
-
-    public BookImpl() {
-        this.state = BookStatus.DRAFT;
-    }
 
     /**
      * Get the book id.
@@ -154,7 +150,8 @@ public class BookImpl implements Book {
      * @param definition state machine definition
      */
     @Override
-    public void setStateMachineDefinition(StateMachineDefinition<BookStatus, BookEvent> definition) {
+    public void setStateMachineDefinition(StateMachineDefinition<BookStatus,
+            BookEvent> definition) {
         this.stateMachineDefinition = definition;
     }
 }

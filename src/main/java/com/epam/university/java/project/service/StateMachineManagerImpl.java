@@ -44,7 +44,8 @@ public class StateMachineManagerImpl implements StateMachineManager {
      * @return initialized stateful entity
      */
     @Override
-    public <S, E> StatefulEntity<S, E> initStateMachine(StatefulEntity<S, E> entity, StateMachineDefinition<S, E> definition) {
+    public <S, E> StatefulEntity<S, E> initStateMachine(StatefulEntity<S, E> entity,
+                                                        StateMachineDefinition<S, E> definition) {
         entity.setStateMachineDefinition(definition);
         return entity;
     }
@@ -62,24 +63,25 @@ public class StateMachineManagerImpl implements StateMachineManager {
             final StateMachineDefinition<S, E> definition = entity.getStateMachineDefinition();
             final StateMachineEventHandler handler = definition.getHandlerClass()
                     .getDeclaredConstructor().newInstance();
-            final Optional<StateMachineState<S, E>> optional
-                    = definition.getStates()
-                    .stream()
+            final Optional<StateMachineState<S, E>> optional = definition.getStates().stream()
                     .filter(x -> x.getFrom().equals(entity.getState()))
                     .filter(x -> x.getOn().equals(event))
                     .findAny();
             final String method;
             if (optional.isPresent()) {
                 method = optional.get().getMethodToCall();
+                StatefulEntity<S, E> entityWithHandledEvent =
+                        (StatefulEntity<S, E>) Arrays.stream(
+                                handler.getClass().getDeclaredMethods())
+                        .filter(x -> x.getName().equals(method))
+                        .findAny()
+                        .get()
+                        .invoke(handler, entity);
+
+                return entityWithHandledEvent;
             } else {
                 return entity;
             }
-            return (StatefulEntity<S, E>) Arrays.stream(handler.getClass().getDeclaredMethods())
-                    .filter(x -> x.getName().equals(method))
-                    .findAny()
-                    .get()
-                    .invoke(handler, entity);
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

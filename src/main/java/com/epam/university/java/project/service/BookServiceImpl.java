@@ -26,7 +26,8 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book createBook() {
-        StateMachineDefinition stateMachineDefinition = stateMachineManager.loadDefinition(xmlResource);
+        StateMachineDefinition stateMachineDefinition =
+                stateMachineManager.loadDefinition(xmlResource);
         StatefulEntity newBook = stateMachineManager.initStateMachine(bookDao.createBook(),
                 stateMachineDefinition);
         return (Book) stateMachineManager.handleEvent(newBook, BookEvent.CREATE);
