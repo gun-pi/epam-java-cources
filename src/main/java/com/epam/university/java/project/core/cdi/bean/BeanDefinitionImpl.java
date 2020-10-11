@@ -39,7 +39,7 @@ public class BeanDefinitionImpl implements BeanDefinition {
      */
     @Override
     public void setId(String id) {
-        this.id = id.trim();
+        this.id = id;
     }
 
     /**
@@ -59,7 +59,7 @@ public class BeanDefinitionImpl implements BeanDefinition {
      */
     @Override
     public void setClassName(String className) {
-        this.className = className.trim();
+        this.className = className;
     }
 
     /**
@@ -99,7 +99,7 @@ public class BeanDefinitionImpl implements BeanDefinition {
      */
     @Override
     public void setPostConstruct(String methodName) {
-        this.postConstruct = methodName.trim();
+        this.postConstruct = methodName;
     }
 
     /**
@@ -119,6 +119,6 @@ public class BeanDefinitionImpl implements BeanDefinition {
      */
     @Override
     public void setScope(String scope) {
-        this.scope = scope.trim();
+        this.scope = scope;
     }
 }

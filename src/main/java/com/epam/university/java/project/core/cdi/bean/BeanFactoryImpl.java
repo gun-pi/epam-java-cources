@@ -63,7 +63,8 @@ public class BeanFactoryImpl implements BeanFactory {
         Predicate<String> isEmpty = (s) ->
                 s == null || s.isEmpty() || s.trim().isEmpty();
 
-        if (definition.getProperties().stream().anyMatch(n -> isEmpty.test(n.getValue())
+        if (definition.getProperties().stream()
+                .anyMatch(n -> isEmpty.test(n.getValue())
                 && isEmpty.test(n.getRef())
                 && n.getData() == null)) {
             throw new RuntimeException();

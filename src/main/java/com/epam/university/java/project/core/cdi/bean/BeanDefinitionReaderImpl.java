@@ -29,12 +29,12 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
                     BeanPropertyDefinitionImpl.class
             );
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            final BeansDefinition beanDefinitionJaxb = (BeansDefinition) unmarshaller
+            final BeansDefinition beansDefinitionFromJaxbContext = (BeansDefinition) unmarshaller
                     .unmarshal(resource.getFile());
-            for (BeanDefinition beanDefinition : beanDefinitionJaxb.getDefinitions()) {
+            for (BeanDefinition beanDefinition : beansDefinitionFromJaxbContext.getDefinitions()) {
                 beanDefinitionRegistry.addBeanDefinition(beanDefinition);
             }
-            return beanDefinitionJaxb.getDefinitions().size();
+            return beansDefinitionFromJaxbContext.getDefinitions().size();
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
