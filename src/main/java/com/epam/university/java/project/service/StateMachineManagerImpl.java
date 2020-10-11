@@ -67,9 +67,8 @@ public class StateMachineManagerImpl implements StateMachineManager {
                     .filter(x -> x.getFrom().equals(entity.getState()))
                     .filter(x -> x.getOn().equals(event))
                     .findAny();
-            final String method;
             if (optional.isPresent()) {
-                method = optional.get().getMethodToCall();
+                String method = optional.get().getMethodToCall();
                 StatefulEntity<S, E> entityWithHandledEvent =
                         (StatefulEntity<S, E>) Arrays.stream(
                                 handler.getClass().getDeclaredMethods())
