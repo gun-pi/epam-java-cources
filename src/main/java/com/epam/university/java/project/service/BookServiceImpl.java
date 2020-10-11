@@ -91,7 +91,7 @@ public class BookServiceImpl implements BookService {
     /**
      * Issue book and set return date.
      *
-     * @param book       book to issue
+     * @param book book to issue
      * @param returnDate return date
      * @return issued book
      */
