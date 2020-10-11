@@ -14,10 +14,6 @@ import java.util.Collection;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "definition")
 public class StateMachineDefinitionImpl implements StateMachineDefinition<BookStatus, BookEvent> {
-    @XmlAttribute(name = "startEvent")
-    private BookEvent startEvent;
-    @XmlAttribute(name = "startState")
-    private BookStatus startState;
     @XmlAttribute(name = "handler")
     private Class<? extends StateMachineEventHandler> handlerClass;
     @XmlElement(name = "transition", type = StateMachineStateImpl.class)
@@ -35,7 +31,7 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
      */
     @Override
     public BookEvent getStartEvent() {
-        return startEvent;
+        return null;
     }
 
     /**
@@ -45,7 +41,7 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
      */
     @Override
     public BookStatus getStartState() {
-        return startState;
+        return null;
     }
 
     /**
@@ -55,7 +51,6 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
      */
     @Override
     public void setStartEvent(BookEvent bookEvent) {
-        this.startEvent = bookEvent;
     }
 
     /**
@@ -65,7 +60,6 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
      */
     @Override
     public void setStartState(BookStatus bookStatus) {
-        this.startState = bookStatus;
     }
 
     /**
