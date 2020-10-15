@@ -18,9 +18,6 @@ public class Task048Impl implements Task048 {
                 || from <= 0 || to <= 0) {
             throw new IllegalArgumentException();
         }
-        if (from == 1) {
-            from++;
-        }
 
         Collection<Integer> armstrongNumbers = new ArrayList<>();
         for (int i = from; i <= to; i++) {
