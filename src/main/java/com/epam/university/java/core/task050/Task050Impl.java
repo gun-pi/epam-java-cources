@@ -28,11 +28,9 @@ public class Task050Impl implements Task050 {
         for (Map.Entry<Double, Double> each : items.entrySet()) {
             map.put(each.getKey() / each.getValue(), each.getKey());
         }
-
         for (Map.Entry<Double, Double> each : map.entrySet()) {
             System.out.println(each.getKey() + " " + each.getValue());
         }
-
         double resultValue = 0.0;
         double resultKey = 0.0;
         for (Map.Entry<Double, Double> each : map.entrySet()) {
