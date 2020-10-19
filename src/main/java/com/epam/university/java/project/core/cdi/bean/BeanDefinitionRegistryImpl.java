@@ -22,8 +22,8 @@ public class BeanDefinitionRegistryImpl implements BeanDefinitionRegistry {
                     registry.put(current.getName(), definition);
                 }
             }
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -10,12 +10,11 @@ import com.epam.university.java.project.core.state.machine.domain.StatefulEntity
 import com.epam.university.java.project.core.state.machine.manager.StateMachineManager;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.util.Arrays;
-import java.util.Optional;
 
 public class StateMachineManagerImpl implements StateMachineManager {
+
     /**
      * Read state machine definition from resource.
      *
@@ -31,7 +30,7 @@ public class StateMachineManagerImpl implements StateMachineManager {
             );
             final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             return (StateMachineDefinitionImpl) unmarshaller.unmarshal(resource.getFile());
-        } catch (JAXBException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -63,24 +62,28 @@ public class StateMachineManagerImpl implements StateMachineManager {
             final StateMachineDefinition<S, E> definition = entity.getStateMachineDefinition();
             final StateMachineEventHandler handler = definition.getHandlerClass()
                     .getDeclaredConstructor().newInstance();
-            final Optional<StateMachineState<S, E>> optional = definition.getStates().stream()
-                    .filter(x -> x.getFrom().equals(entity.getState()))
-                    .filter(x -> x.getOn().equals(event))
-                    .findAny();
-            if (optional.isPresent()) {
-                String method = optional.get().getMethodToCall();
-                StatefulEntity<S, E> entityWithHandledEvent =
-                        (StatefulEntity<S, E>) Arrays.stream(
-                                handler.getClass().getDeclaredMethods())
+            StateMachineState stateMachineState = null;
+            for (StateMachineState each : definition.getStates()) {
+                if (each.getFrom().equals(entity.getState()) && each.getOn().equals(event)) {
+                    stateMachineState = each;
+                    break;
+                }
+            }
+            if (stateMachineState != null) {
+                String method = stateMachineState.getMethodToCall();
+                StatefulEntity entityWithHandledEvent =
+                        (StatefulEntity) Arrays.stream(
+                                handler.getClass().getDeclaredMethods()
+                        )
                         .filter(x -> x.getName().equals(method))
                         .findAny()
                         .get()
                         .invoke(handler, entity);
 
                 return entityWithHandledEvent;
-            } else {
-                return entity;
             }
+
+            return entity;
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

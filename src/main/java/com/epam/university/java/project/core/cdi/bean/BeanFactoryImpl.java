@@ -7,7 +7,6 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class BeanFactoryImpl implements BeanFactory {
@@ -60,14 +59,11 @@ public class BeanFactoryImpl implements BeanFactory {
      * @return bean instance
      */
     public <T> T getBean(final BeanDefinition definition) {
-        Predicate<String> isEmpty = (s) ->
-                s == null || s.isEmpty() || s.trim().isEmpty();
-
-        if (definition.getProperties().stream()
-                .anyMatch(n -> isEmpty.test(n.getValue())
-                && isEmpty.test(n.getRef())
-                && n.getData() == null)) {
-            throw new RuntimeException();
+        for (BeanPropertyDefinition each : definition.getProperties()) {
+            if (each.getValue() == null && each.getRef() == null
+                    && each.getData() == null) {
+                throw new RuntimeException();
+            }
         }
 
         try {
@@ -89,17 +85,17 @@ public class BeanFactoryImpl implements BeanFactory {
                 final Field beanField = beanClass.getDeclaredField(property.getName());
                 beanField.setAccessible(true);
 
-                if (!isEmpty.test(property.getRef())) {
-                    Object dependency = getBean(property.getRef());
-                    beanField.set(instance, dependency);
-                }
-
-                if (!isEmpty.test(property.getValue())) {
+                if (property.getValue() != null) {
                     try {
                         beanField.set(instance, Integer.parseInt(property.getValue()));
                     } catch (Exception e) {
                         beanField.set(instance, property.getValue());
                     }
+                }
+
+                if (property.getRef() != null) {
+                    Object object = getBean(property.getRef());
+                    beanField.set(instance, object);
                 }
 
                 if (property.getData() == null) {
@@ -108,8 +104,7 @@ public class BeanFactoryImpl implements BeanFactory {
 
                 if (property.getData() instanceof ListDefinition) {
                     ListDefinition listDefinition = (ListDefinition) property.getData();
-                    Collection<String> items = listDefinition.getItems()
-                                                .stream()
+                    Collection<String> items = listDefinition.getItems().stream()
                                                 .map(ListDefinition.ListItemDefinition::getValue)
                                                 .collect(Collectors.toList());
                     beanField.set(instance, items);
@@ -117,27 +112,28 @@ public class BeanFactoryImpl implements BeanFactory {
 
                 if (property.getData() instanceof MapDefinition) {
                     MapDefinition mapDefinition = (MapDefinition) property.getData();
-                    Map<String, Object> itemMap = new HashMap<>();
+                    Map<String, Object> entries = new HashMap<>();
                     for (MapDefinition.MapEntryDefinition entryDefinition
                             : mapDefinition.getValues()) {
-                        if (!isEmpty.test(entryDefinition.getValue())
-                                && !isEmpty.test(entryDefinition.getRef())) {
+                        if (entryDefinition.getValue() != null
+                                && entryDefinition.getRef() != null) {
                             throw new RuntimeException();
                         }
-                        if (!isEmpty.test(entryDefinition.getValue())) {
-                            itemMap.put(entryDefinition.getKey(), entryDefinition.getValue());
-                        } else if (!isEmpty.test(entryDefinition.getRef())) {
-                            Object dependency = getBean(entryDefinition.getRef());
-                            itemMap.put(entryDefinition.getKey(), dependency);
+                        if (entryDefinition.getValue() != null) {
+                            entries.put(entryDefinition.getKey(), entryDefinition.getValue());
+                        }
+                        if (entryDefinition.getRef() != null) {
+                            Object object = getBean(entryDefinition.getRef());
+                            entries.put(entryDefinition.getKey(), object);
                         }
                     }
-                    beanField.set(instance, itemMap);
+                    beanField.set(instance, entries);
                 }
             }
 
             return instance;
         } catch (Exception e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
 }
