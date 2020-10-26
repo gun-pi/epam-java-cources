@@ -33,15 +33,13 @@ public class Task053Impl implements Task053 {
             throw new IllegalArgumentException();
         }
 
-        Pattern pattern = Pattern.compile("[^\\d-*/^()+]");
-        Matcher matcher = pattern.matcher(input);
-        if (matcher.find()) {
+        if (Pattern.compile("[^\\d-*/^()+]")
+                .matcher(input).find()) {
             throw new IllegalArgumentException();
         }
 
-        pattern = Pattern.compile("[-*/^+]$");
-        matcher = pattern.matcher(input);
-        if (matcher.find()) {
+        if (Pattern.compile("[-*/^+]$")
+                .matcher(input).find()) {
             throw new IllegalArgumentException();
         }
     }
@@ -61,8 +59,8 @@ public class Task053Impl implements Task053 {
 
         for (int i = 0; i < input.length(); i++) {
             if (Character.isDigit(input.charAt(i))) {
-                Pattern pattern = Pattern.compile("(\\d+)");
-                Matcher matcher = pattern.matcher(input.substring(i));
+                Matcher matcher = Pattern.compile("(\\d+)")
+                        .matcher(input.substring(i));
                 matcher.find();
                 String number = matcher.group();
                 rpnExpression.add(number);
