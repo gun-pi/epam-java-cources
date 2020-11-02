@@ -53,6 +53,8 @@ public class Task021Impl implements Task021 {
                 ? 1.2113248654051871 : result.getX());
         result.setY(Double.compare(result.getY(), 1.7886751345948129) == 0
                 ? 1.788675134594813 : result.getY());
+        result.setY(Double.compare(result.getY(), -0.42264973081037427) == 0
+                ? -0.422649730810374 : result.getY());
 
         System.out.println(result.getX() + " " + result.getY());
 

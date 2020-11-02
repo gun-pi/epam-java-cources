@@ -13,7 +13,7 @@ public class Task039Impl implements Task039 {
 
     @Override
     public Map<Character, String> getEncoding(Map<Character, Integer> charFrequencies) {
-        return getEncoding(charFrequencies, new NodeComparator());
+        return getEncoding(charFrequencies, new NodeAnotherComparator());
     }
 
     /**
