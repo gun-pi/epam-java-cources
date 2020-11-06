@@ -3,9 +3,7 @@ package com.epam.university.java.core.task021;
 import com.epam.university.java.core.task015.Point;
 import com.epam.university.java.core.task015.PointImpl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public class Task021Impl implements Task021 {
     /**
@@ -49,15 +47,12 @@ public class Task021Impl implements Task021 {
         result.setX(Double.compare(result.getX(), -0.0d) == 0 ? 0 : result.getX());
         result.setY(Double.compare(result.getY(), -0.0d) == 0 ? 0 : result.getY());
 
-        result.setX(Double.compare(result.getX(), 1.2113248654051874) == 0
-                ? 1.2113248654051871 : result.getX());
-        result.setY(Double.compare(result.getY(), 1.7886751345948129) == 0
-                ? 1.788675134594813 : result.getY());
-        result.setY(Double.compare(result.getY(), -0.42264973081037427) == 0
-                ? -0.422649730810374 : result.getY());
-
-        System.out.println(result.getX() + " " + result.getY());
-
+        result.setX(Double.parseDouble(
+                String.format("%.15f", result.getX())
+        ));
+        result.setY(Double.parseDouble(
+                String.format("%.15f", result.getY())
+        ));
 
         return result;
     }

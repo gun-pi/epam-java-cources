@@ -36,6 +36,9 @@ public class GraphImpl implements Graph {
     public void createVertex(int id, int x, int y) {
         vertexList.add(new VertexImpl(id, x, y));
         adjacencyMatrix.put(id, new ArrayList<>());
+        if (vertexList.size() > vertexCount) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**

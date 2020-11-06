@@ -1,6 +1,5 @@
 package com.epam.university.java.core.task050;
 
-import java.util.Comparator;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -22,25 +21,26 @@ public class Task050Impl implements Task050 {
                     .reduce(0.0, Double::sum);
         }
 
-        final double a = 3316.0;
-        final double b = 7777.731;
-        Map<Double, Double> map = new TreeMap<>(Comparator.reverseOrder());
-        for (Map.Entry<Double, Double> each : items.entrySet()) {
-            map.put(each.getKey() / each.getValue(), each.getKey());
-        }
-        for (Map.Entry<Double, Double> each : map.entrySet()) {
-            System.out.println(each.getKey() + " " + each.getValue());
-        }
-        double resultValue = 0.0;
-        double resultKey = 0.0;
-        for (Map.Entry<Double, Double> each : map.entrySet()) {
-            if (resultValue + items.get(each.getValue()) > size) {
-                break;
-            }
-            resultValue += items.get(each.getValue());
-            resultKey += each.getValue();
+        TreeMap<Double, Map.Entry<Double, Double>> sortedItemsMap = new TreeMap<>();
+        for (Map.Entry<Double, Double> entry : items.entrySet()) {
+            sortedItemsMap.put(entry.getKey() / entry.getValue(), entry);
         }
 
-        return resultKey == a ? b : resultKey;
+        double result = 0;
+        while (size > 0) {
+            Map.Entry<Double, Map.Entry<Double, Double>> entryFromSortedItemsMap
+                    = sortedItemsMap.pollLastEntry();
+            if (entryFromSortedItemsMap.getValue().getValue() < size) {
+                result += entryFromSortedItemsMap.getValue().getKey();
+                size -= entryFromSortedItemsMap.getValue().getValue();
+            } else {
+                result += size * entryFromSortedItemsMap.getKey();
+                break;
+            }
+        }
+
+        return Double.parseDouble(
+                String.format("%.3f", result)
+        );
     }
 }

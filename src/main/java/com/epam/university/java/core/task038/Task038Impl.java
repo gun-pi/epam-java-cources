@@ -18,6 +18,9 @@ public class Task038Impl implements Task038 {
      */
     @Override
     public Graph invokeActions(Graph sourceGraph, Collection<GraphAction> actions) {
+        if (sourceGraph == null || actions == null || actions.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
         for (GraphAction current: actions) {
             current.run(sourceGraph);
         }
@@ -37,6 +40,10 @@ public class Task038Impl implements Task038 {
      */
     @Override
     public Collection<Vertex> getShortestPath(Graph graph, int startId, int endId) {
+        if (graph == null) {
+            throw new IllegalArgumentException();
+        }
+
         GraphImpl castedGraph = (GraphImpl) graph;
         List<VertexImpl> vertices = castedGraph.getVertexList();
 
