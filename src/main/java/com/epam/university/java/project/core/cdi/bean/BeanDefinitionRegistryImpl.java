@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BeanDefinitionRegistryImpl implements BeanDefinitionRegistry {
-    private final Map<String, BeanDefinition> registry = new HashMap<>();
+    private Map<String, BeanDefinition> registry = new HashMap<>();
 
     /**
      * Add bean definition to registry.
@@ -15,11 +15,12 @@ public class BeanDefinitionRegistryImpl implements BeanDefinitionRegistry {
     public void addBeanDefinition(BeanDefinition definition) {
         registry.put(definition.getId(), definition);
         registry.put(definition.getClassName(), definition);
+
         try {
-            final Class<?> beanClass = Class.forName(definition.getClassName());
-            for (Class<?> current : beanClass.getInterfaces()) {
-                if (current != null) {
-                    registry.put(current.getName(), definition);
+            Class<?>[] interfaces = Class.forName(definition.getClassName()).getInterfaces();
+            for (Class<?> eachInterface : interfaces) {
+                if (eachInterface != null) {
+                    registry.put(eachInterface.getName(), definition);
                 }
             }
         } catch (Exception e) {

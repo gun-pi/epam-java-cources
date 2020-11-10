@@ -13,8 +13,4 @@ public class BeansDefinition {
     public Collection<BeanDefinition> getDefinitions() {
         return definitions;
     }
-
-    private void setDefinitions(Collection<BeanDefinition> definitions) {
-        this.definitions = definitions;
-    }
 }

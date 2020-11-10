@@ -11,10 +11,10 @@ import com.epam.university.java.project.core.cdi.io.Resource;
 import java.util.Collection;
 
 public class ApplicationContextImpl implements ApplicationContext {
-    private final BeanDefinitionRegistry beanDefinitionRegistry = new BeanDefinitionRegistryImpl();
-    private final BeanDefinitionReader beanDefinitionReader =
+    private BeanDefinitionRegistry beanDefinitionRegistry = new BeanDefinitionRegistryImpl();
+    private BeanDefinitionReader beanDefinitionReader =
             new BeanDefinitionReaderImpl(beanDefinitionRegistry);
-    private final BeanFactory beanFactory = new BeanFactoryImpl(beanDefinitionRegistry);
+    private BeanFactory beanFactory = new BeanFactoryImpl(beanDefinitionRegistry);
 
     /**
      * Load bean definitions from designated resource.

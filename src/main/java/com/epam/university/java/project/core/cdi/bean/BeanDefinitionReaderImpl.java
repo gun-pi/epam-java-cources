@@ -3,12 +3,11 @@ package com.epam.university.java.project.core.cdi.bean;
 import com.epam.university.java.project.core.cdi.io.Resource;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.util.Collection;
 
 public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
-    private final BeanDefinitionRegistry beanDefinitionRegistry;
+    private BeanDefinitionRegistry beanDefinitionRegistry;
 
     public BeanDefinitionReaderImpl(BeanDefinitionRegistry beanDefinitionRegistry) {
         this.beanDefinitionRegistry = beanDefinitionRegistry;
@@ -23,19 +22,23 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
     @Override
     public int loadBeanDefinitions(Resource resource) {
         try {
-            final JAXBContext jaxbContext = JAXBContext.newInstance(
+            JAXBContext jaxbContext = JAXBContext.newInstance(
                     BeansDefinition.class,
                     BeanDefinitionImpl.class,
                     BeanPropertyDefinitionImpl.class
             );
-            final Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            final BeansDefinition beansDefinitionFromJaxbContext = (BeansDefinition) unmarshaller
-                    .unmarshal(resource.getFile());
-            for (BeanDefinition beanDefinition : beansDefinitionFromJaxbContext.getDefinitions()) {
+
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            BeansDefinition beansDefinition =
+                    (BeansDefinition) unmarshaller.unmarshal(resource.getFile());
+            Collection<BeanDefinition> beanDefinitionsCollection = beansDefinition.getDefinitions();
+
+            for (BeanDefinition beanDefinition : beanDefinitionsCollection) {
                 beanDefinitionRegistry.addBeanDefinition(beanDefinition);
             }
-            return beansDefinitionFromJaxbContext.getDefinitions().size();
-        } catch (JAXBException e) {
+
+            return beanDefinitionsCollection.size();
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -48,10 +51,6 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
      */
     @Override
     public int loadBeanDefinitions(Collection<Resource> resources) {
-        int beansLoaded = 0;
-        for (Resource resource : resources) {
-            beansLoaded += loadBeanDefinitions(resource);
-        }
-        return beansLoaded;
+        return 0;
     }
 }
