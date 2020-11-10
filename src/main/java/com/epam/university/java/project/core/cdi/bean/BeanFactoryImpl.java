@@ -134,7 +134,8 @@ public class BeanFactoryImpl implements BeanFactory {
                             }
 
                             if (entryDefinition.getRef() != null) {
-                                entries.put(entryDefinition.getKey(), getBean(entryDefinition.getRef()));
+                                entries.put(entryDefinition.getKey(),
+                                        getBean(entryDefinition.getRef()));
                             }
                         }
 

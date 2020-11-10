@@ -1,16 +1,14 @@
 package com.epam.university.java.project.core.cdi.bean;
 
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 import java.util.Collection;
 
-@XmlRootElement(name = "beans")
-public class BeansDefinition {
-    @XmlAnyElement(lax = true)
-    private Collection<BeanDefinition> definitions = new ArrayList<>();
-
-    public Collection<BeanDefinition> getDefinitions() {
-        return definitions;
-    }
+/**
+ * Meta information about beans in context environment.
+ */
+public interface BeansDefinition {
+    /**
+     * Get bean definitions.
+     * @return collection of bean definitions
+     */
+    Collection<BeanDefinition> getDefinitions();
 }

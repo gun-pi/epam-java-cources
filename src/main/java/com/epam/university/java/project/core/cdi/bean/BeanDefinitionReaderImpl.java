@@ -23,7 +23,7 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
     public int loadBeanDefinitions(Resource resource) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(
-                    BeansDefinition.class,
+                    BeansDefinitionImpl.class,
                     BeanDefinitionImpl.class,
                     BeanPropertyDefinitionImpl.class
             );
