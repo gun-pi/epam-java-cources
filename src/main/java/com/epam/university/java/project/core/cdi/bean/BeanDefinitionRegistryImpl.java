@@ -13,11 +13,12 @@ public class BeanDefinitionRegistryImpl implements BeanDefinitionRegistry {
      */
     @Override
     public void addBeanDefinition(BeanDefinition definition) {
-        registry.put(definition.getId(), definition);
-        registry.put(definition.getClassName(), definition);
-
         try {
+            registry.put(definition.getId(), definition);
+            registry.put(definition.getClassName(), definition);
+
             Class<?>[] interfaces = Class.forName(definition.getClassName()).getInterfaces();
+
             for (Class<?> eachInterface : interfaces) {
                 if (eachInterface != null) {
                     registry.put(eachInterface.getName(), definition);

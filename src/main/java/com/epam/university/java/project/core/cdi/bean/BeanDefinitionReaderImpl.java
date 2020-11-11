@@ -31,13 +31,13 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             BeansDefinition beansDefinition =
                     (BeansDefinition) unmarshaller.unmarshal(resource.getFile());
-            Collection<BeanDefinition> beanDefinitionsCollection = beansDefinition.getDefinitions();
+            Collection<BeanDefinition> beanDefinitions = beansDefinition.getDefinitions();
 
-            for (BeanDefinition beanDefinition : beanDefinitionsCollection) {
+            for (BeanDefinition beanDefinition : beanDefinitions) {
                 beanDefinitionRegistry.addBeanDefinition(beanDefinition);
             }
 
-            return beanDefinitionsCollection.size();
+            return beanDefinitions.size();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

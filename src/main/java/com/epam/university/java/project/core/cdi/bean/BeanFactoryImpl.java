@@ -63,19 +63,19 @@ public class BeanFactoryImpl implements BeanFactory {
      * @return bean instance
      */
     public <T> T getBean(BeanDefinition definition) {
-        Collection<BeanPropertyDefinition> properties = definition.getProperties();
-        for (BeanPropertyDefinition property : properties) {
-            if (property.getValue() == null
-                    && property.getRef() == null
-                    && property.getData() == null) {
-                throw new RuntimeException();
-            }
-        }
-
         try {
-            T instance;
+            Collection<BeanPropertyDefinition> properties = definition.getProperties();
+            for (BeanPropertyDefinition property : properties) {
+                if (property.getValue() == null
+                        && property.getRef() == null
+                        && property.getData() == null) {
+                    throw new RuntimeException();
+                }
+            }
+
             Class<T> beanClass = (Class<T>) Class.forName(definition.getClassName());
             String beanScope = definition.getScope() == null ? "" : definition.getScope();
+            T instance;
 
             if (beanScope.equals("singleton") && singletons.containsKey(definition)) {
                 instance = (T) singletons.get(definition);

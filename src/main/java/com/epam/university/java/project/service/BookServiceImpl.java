@@ -14,8 +14,6 @@ import java.util.Collection;
 public class BookServiceImpl implements BookService {
     private BookDao bookDao;
     private StateMachineManager stateMachineManager;
-    private Resource xmlResource = new XmlResource(
-            getClass().getResource("/project/DefaultBookStateMachineDefinition.xml").getFile());
 
     /**
      * Create new draft book instance.
@@ -24,10 +22,16 @@ public class BookServiceImpl implements BookService {
      */
     @Override
     public Book createBook() {
+        Resource resource = new XmlResource(
+                getClass().getResource("/project/DefaultBookStateMachineDefinition.xml").getFile()
+        );
         StateMachineDefinition stateMachineDefinition =
-                stateMachineManager.loadDefinition(xmlResource);
-        StatefulEntity newBook = stateMachineManager.initStateMachine(bookDao.createBook(),
-                stateMachineDefinition);
+                stateMachineManager.loadDefinition(resource);
+        StatefulEntity newBook = stateMachineManager.initStateMachine(
+                bookDao.createBook(),
+                stateMachineDefinition
+        );
+
         return (Book)stateMachineManager.handleEvent(newBook, BookEvent.CREATE);
     }
 

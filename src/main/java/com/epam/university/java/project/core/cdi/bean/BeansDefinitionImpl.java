@@ -8,7 +8,7 @@ import java.util.Collection;
 @XmlRootElement(name = "beans")
 public class BeansDefinitionImpl implements BeansDefinition {
     @XmlAnyElement(lax = true)
-    private Collection<BeanDefinition> definitions = new ArrayList<>();
+    private Collection<BeanDefinition> definitions;
 
     /**
      * Get bean definitions.

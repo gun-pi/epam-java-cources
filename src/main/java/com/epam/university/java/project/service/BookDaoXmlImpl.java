@@ -28,10 +28,15 @@ public class BookDaoXmlImpl implements BookDao {
      */
     @Override
     public Book getBook(int id) {
-        return books.stream()
-                .filter(x -> x.getId() == id)
-                .findAny()
-                .orElse(null);
+        Book result = null;
+        for (Book book : books) {
+            if (book.getId() == id) {
+                result = book;
+                break;
+            }
+        }
+        
+        return result;
     }
 
     /**

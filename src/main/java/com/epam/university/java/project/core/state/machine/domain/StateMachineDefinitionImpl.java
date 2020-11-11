@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -18,11 +17,6 @@ public class StateMachineDefinitionImpl implements StateMachineDefinition<BookSt
     private Class<? extends StateMachineEventHandler> handlerClass;
     @XmlElement(name = "transition", type = StateMachineStateImpl.class)
     private Collection<StateMachineState<BookStatus, BookEvent>> states;
-
-
-    public StateMachineDefinitionImpl() {
-        states = new ArrayList<>();
-    }
 
     /**
      * Get start event.
