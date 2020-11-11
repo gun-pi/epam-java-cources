@@ -65,15 +65,15 @@ public class BeanFactoryImpl implements BeanFactory {
     public <T> T getBean(BeanDefinition definition) {
         try {
             Class<T> beanClass = (Class<T>) Class.forName(definition.getClassName());
-            String beanScope = definition.getScope() == null ? "" : definition.getScope();
+            String beanScope = definition.getScope();
             T instance;
 
-            if (beanScope.equals("singleton") && singletons.containsKey(definition)) {
+            if ("singleton".equals(beanScope) && singletons.containsKey(definition)) {
                 instance = (T) singletons.get(definition);
                 return instance;
             } else {
                 instance = beanClass.getDeclaredConstructor().newInstance();
-                if (beanScope.equals("singleton")) {
+                if ("singleton".equals(beanScope)) {
                     singletons.put(definition, instance);
                 }
             }
