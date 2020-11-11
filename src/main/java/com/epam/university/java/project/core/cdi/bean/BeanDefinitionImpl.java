@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -16,7 +15,7 @@ public class BeanDefinitionImpl implements BeanDefinition {
     @XmlAttribute(name = "class")
     private String className;
     @XmlAnyElement(lax = true)
-    private Collection<BeanPropertyDefinition> properties = new ArrayList<>();
+    private Collection<BeanPropertyDefinition> properties;
     @XmlAttribute(name = "init")
     private String postConstruct;
     @XmlAttribute(name = "scope")

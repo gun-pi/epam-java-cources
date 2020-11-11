@@ -27,10 +27,8 @@ public class BookServiceImpl implements BookService {
         );
         StateMachineDefinition stateMachineDefinition =
                 stateMachineManager.loadDefinition(resource);
-        StatefulEntity newBook = stateMachineManager.initStateMachine(
-                bookDao.createBook(),
-                stateMachineDefinition
-        );
+        StatefulEntity newBook = stateMachineManager.initStateMachine(bookDao.createBook(),
+                stateMachineDefinition);
 
         return (Book)stateMachineManager.handleEvent(newBook, BookEvent.CREATE);
     }

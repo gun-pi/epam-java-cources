@@ -64,28 +64,25 @@ public class BeanFactoryImpl implements BeanFactory {
      */
     public <T> T getBean(BeanDefinition definition) {
         try {
-            Collection<BeanPropertyDefinition> properties = definition.getProperties();
-            for (BeanPropertyDefinition property : properties) {
-                if (property.getValue() == null
-                        && property.getRef() == null
-                        && property.getData() == null) {
-                    throw new RuntimeException();
-                }
-            }
-
             Class<T> beanClass = (Class<T>) Class.forName(definition.getClassName());
             String beanScope = definition.getScope() == null ? "" : definition.getScope();
             T instance;
 
             if (beanScope.equals("singleton") && singletons.containsKey(definition)) {
                 instance = (T) singletons.get(definition);
-
                 return instance;
             } else {
                 instance = beanClass.getDeclaredConstructor().newInstance();
                 if (beanScope.equals("singleton")) {
                     singletons.put(definition, instance);
                 }
+            }
+
+            Collection<BeanPropertyDefinition> properties = definition.getProperties();
+            if (properties == null) {
+                return instance;
+            } else {
+                checkProperties(properties);
             }
 
             for (BeanPropertyDefinition property : properties) {
@@ -116,7 +113,6 @@ public class BeanFactoryImpl implements BeanFactory {
                                 items.add(itemDefinition.getValue());
                             }
                         }
-
                         beanField.set(instance, items);
                     }
 
@@ -138,7 +134,6 @@ public class BeanFactoryImpl implements BeanFactory {
                                         getBean(entryDefinition.getRef()));
                             }
                         }
-
                         beanField.set(instance, entries);
                     }
                 }
@@ -147,6 +142,16 @@ public class BeanFactoryImpl implements BeanFactory {
             return instance;
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void checkProperties(Collection<BeanPropertyDefinition> properties) {
+        for (BeanPropertyDefinition property : properties) {
+            if (property.getValue() == null
+                    && property.getRef() == null
+                    && property.getData() == null) {
+                throw new RuntimeException();
+            }
         }
     }
 }

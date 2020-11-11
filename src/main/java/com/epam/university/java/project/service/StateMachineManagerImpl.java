@@ -85,8 +85,6 @@ public class StateMachineManagerImpl implements StateMachineManager {
                         break;
                     }
                 }
-
-                return entity;
             }
 
             return entity;

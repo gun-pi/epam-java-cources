@@ -10,5 +10,5 @@ public interface BeansDefinition {
      * Get bean definitions.
      * @return collection of bean definitions
      */
-    Collection<BeanDefinition> getDefinitions();
+    Collection<BeanDefinition> getBeanDefinitions();
 }

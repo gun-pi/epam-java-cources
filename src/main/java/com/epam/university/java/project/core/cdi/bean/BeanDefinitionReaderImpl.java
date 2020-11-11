@@ -31,7 +31,7 @@ public class BeanDefinitionReaderImpl implements BeanDefinitionReader {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             BeansDefinition beansDefinition =
                     (BeansDefinition) unmarshaller.unmarshal(resource.getFile());
-            Collection<BeanDefinition> beanDefinitions = beansDefinition.getDefinitions();
+            Collection<BeanDefinition> beanDefinitions = beansDefinition.getBeanDefinitions();
 
             for (BeanDefinition beanDefinition : beanDefinitions) {
                 beanDefinitionRegistry.addBeanDefinition(beanDefinition);
