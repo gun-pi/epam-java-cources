@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,8 +20,12 @@ public class Task053Impl implements Task053 {
      */
     @Override
     public double calculate(String input) {
-        checkInput(input);
-        return getResult(getRpnExpression(input));
+        try {
+            checkInput(input);
+            return getResult(getRpnExpression(input));
+        } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException();
+        }
     }
 
     /**
