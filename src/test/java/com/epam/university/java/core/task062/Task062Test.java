@@ -70,6 +70,9 @@ public class Task062Test {
         assertNotNull("outputStream is null", outputStream);
         assertNotNull("Deserialized object is null", obj);
 
+        System.out.println("desOb" + obj.toString());
+        System.out.println("obj" + personExt.toString());
+
         assertEquals(
                 "Something went wrong with external serialization: objects are not equal",
                 personExt,
