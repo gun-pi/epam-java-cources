@@ -36,6 +36,7 @@ public class Task058Impl implements Task058 {
                     case 3:
                         matrix[chunkOffset - chunkIndex][step] = a + 1;
                         break;
+                    default:
                 }
                 a++;
             }

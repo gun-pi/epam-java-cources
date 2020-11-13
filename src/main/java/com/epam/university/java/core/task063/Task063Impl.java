@@ -14,7 +14,7 @@ public class Task063Impl implements Task063 {
             throw new IllegalArgumentException();
         }
 
-        while(true) {
+        while (true) {
             if (String.valueOf(number).length() == 1) {
                 break;
             }

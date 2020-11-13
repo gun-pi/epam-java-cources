@@ -25,8 +25,8 @@ public class Task059Impl implements Task059 {
 
         path = path.substring(1);
 
-       List<String> result = new ArrayList<>();
-       List<Path> files = null;
+        List<String> result = new ArrayList<>();
+        List<Path> files = null;
         try {
             files = Files.walk(Paths.get(path))
                     .filter(Files::isRegularFile)
