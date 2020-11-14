@@ -23,8 +23,6 @@ public class Task059Impl implements Task059 {
             throw new IllegalArgumentException();
         }
 
-        path = path.substring(1);
-
         List<String> result = new ArrayList<>();
         List<Path> files = null;
         try {
@@ -35,16 +33,16 @@ public class Task059Impl implements Task059 {
             e.printStackTrace();
         }
 
-        for (Path each : files) {
+        for (Path file : files) {
             List<String> lines = null;
             try {
-                lines = Files.readAllLines(each);
+                lines = Files.readAllLines(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            for (String string : lines) {
-                if (string.contains(substring)) {
-                    result.add(each.toString());
+            for (String line : lines) {
+                if (line.contains(substring)) {
+                    result.add(file.toString());
                 }
             }
         }
