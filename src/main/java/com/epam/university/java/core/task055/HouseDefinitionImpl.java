@@ -17,7 +17,7 @@ public class HouseDefinitionImpl implements HouseDefinition {
     private String area;
     @XmlElement(name = "addr_district")
     private String district;
-    @XmlElement(name = "comm_num")
+    @XmlElement(name = "comm_room_num")
     private String comm;
 
     @Override

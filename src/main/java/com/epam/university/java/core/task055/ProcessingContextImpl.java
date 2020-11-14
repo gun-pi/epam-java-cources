@@ -139,23 +139,9 @@ public class ProcessingContextImpl implements ProcessingContext {
             if (comm.isEmpty()) {
                 continue;
             }
-            if (comm.matches("\\d+") && Integer.parseInt(comm) != 0) {
-                counter++;
-                continue;
-            }
-            if (comm.matches("\\d+") && Integer.parseInt(comm) == 0) {
-                continue;
-            }
-
-            for (String number : comm.trim().split(", ")) {
-                if (Integer.parseInt(number.trim()) != 0) {
-                    counter++;
-                    break;
-                }
-            }
-
+            counter++;
         }
 
-        return counter + 150;
+        return counter;
     }
 }
