@@ -5,6 +5,13 @@ public class WindowImpl implements Window {
     int numberOfWindow;
     SideType side;
 
+    /**
+     * Constructor.
+     *
+     * @param levelNumber level number
+     * @param numberOfWindow number of window
+     * @param side side
+     */
     public WindowImpl(int levelNumber, int numberOfWindow, SideType side) {
         this.levelNumber = levelNumber;
         this.numberOfWindow = numberOfWindow;
@@ -24,5 +31,12 @@ public class WindowImpl implements Window {
     @Override
     public SideType getSide() {
         return side;
+    }
+
+    @Override
+    public String toString() {
+        return "WindowImpl{" + "levelNumber=" + levelNumber
+                + ", numberOfWindow=" + numberOfWindow
+                + ", side=" + side + '}';
     }
 }
