@@ -21,6 +21,9 @@ public class Task060Impl implements Task060 {
      */
     @Override
     public void set(Cache cache, int key, String value) {
+        if (cache == null) {
+            throw new IllegalArgumentException();
+        }
         cache.setNode(key, value);
     }
 
@@ -33,6 +36,9 @@ public class Task060Impl implements Task060 {
      */
     @Override
     public String get(Cache cache, int key) {
+        if (cache == null) {
+            throw new IllegalArgumentException();
+        }
         return cache.getNode(key);
     }
 }

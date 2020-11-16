@@ -52,7 +52,7 @@ public class Task062Impl implements Task062 {
             ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
             Object object = objectInputStream.readObject();
             if (object instanceof SingletonObject) {
-                return SingletonObject.getInstance();
+                return SingletonObjectImpl.getInstance();
             } else {
                 return object;
             }

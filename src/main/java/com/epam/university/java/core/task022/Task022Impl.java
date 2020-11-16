@@ -18,15 +18,21 @@ public class Task022Impl implements Task022 {
         }
 
         ArrayList<Integer> array = new ArrayList<>(numbers);
-        Integer min = 999999999;
+        Integer min = Integer.MAX_VALUE;
         int sum = 0;
         for (Integer each : array) {
             if (each < min) {
                 min = each;
             }
         }
+
+        boolean flag = true;
         for (Integer each : array) {
             if (!each.equals(min)) {
+                sum += each;
+            } else if (flag) {
+                flag = false;
+            } else {
                 sum += each;
             }
         }
@@ -48,15 +54,21 @@ public class Task022Impl implements Task022 {
         }
 
         ArrayList<Integer> array = new ArrayList<>(numbers);
-        Integer max = -999999999;
+        Integer max = Integer.MIN_VALUE;
         int sum = 0;
         for (Integer each : array) {
             if (each > max) {
                 max = each;
             }
         }
+
+        boolean flag = true;
         for (Integer each : array) {
             if (!each.equals(max)) {
+                sum += each;
+            } else if (flag) {
+                flag = false;
+            } else {
                 sum += each;
             }
         }

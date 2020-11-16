@@ -8,9 +8,14 @@ import java.net.Socket;
 public class ClientImpl implements Client {
     private Socket serverSocket;
     private BufferedWriter out;
+    private boolean flag;
 
     @Override
     public void sendMessage(String message) {
+        if (message == null) {
+            flag = true;
+        }
+
         try {
             out.write(message + "\n");
             out.flush();
@@ -38,6 +43,11 @@ public class ClientImpl implements Client {
         try {
             serverSocket.close();
             out.close();
+            if (flag) {
+                throw new IllegalArgumentException();
+            }
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException();
         } catch (Exception e) {
             e.printStackTrace();
         }
