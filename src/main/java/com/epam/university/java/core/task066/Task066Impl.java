@@ -5,7 +5,7 @@ public class Task066Impl implements Task066 {
      * <p>
      * Given an long limiter and String, find the number
      * of letter 'a' in the first limiter letters of infinite input String.
-     * <p>
+     * </p>
      * For example, if the String s = "abcac", and int limiter = 10,
      * the substring we consider is "abcacabcac", the first 10 characters
      * of this infinite string. There are 4 occurrences of 'a' in the substring.
@@ -29,7 +29,9 @@ public class Task066Impl implements Task066 {
         }
 
         return (limiter / infiniteString.length()) * getNumberOfA(infiniteString)
-                + getNumberOfA(infiniteString.substring(0, (int)(limiter % infiniteString.length())));
+                + getNumberOfA(
+                        infiniteString.substring(0, (int)(limiter % infiniteString.length()))
+        );
     }
 
     private long getNumberOfA(String string) {
