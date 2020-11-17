@@ -46,11 +46,6 @@ public class Task064Impl implements Task064 {
         Combination combinationOfFirstPlayer = determineCombination(boardCards, firstPlayer);
         Combination combinationOfSecondPlayer = determineCombination(boardCards, secondPlayer);
 
-        System.out.println(combinationOfFirstPlayer + " first "
-                + combinationOfFirstPlayer.ordinal() + " " + firstPlayer.getPlayerHand().stream().map(x -> x.getCardRank()).collect(Collectors.toList()));
-        System.out.println(combinationOfSecondPlayer + " sec "
-                + combinationOfSecondPlayer.ordinal() + " " + secondPlayer.getPlayerHand().stream().map(x -> x.getCardRank()).collect(Collectors.toList()));
-
         if (combinationOfFirstPlayer.ordinal() > combinationOfSecondPlayer.ordinal()) {
             return firstPlayer;
         } else if (combinationOfFirstPlayer.ordinal() < combinationOfSecondPlayer.ordinal()) {
@@ -63,6 +58,12 @@ public class Task064Impl implements Task064 {
             int maxCardOfSecondPlayer = secondPlayer.getPlayerHand().stream()
                     .mapToInt(Card::getCardRank)
                     .max().getAsInt();
+            int maxCardOfBoard = boardCards.stream()
+                    .mapToInt(Card::getCardRank)
+                    .max().getAsInt();
+            if (maxCardOfBoard > maxCardOfFirstPlayer && maxCardOfBoard > maxCardOfSecondPlayer) {
+                return null;
+            }
             if (maxCardOfFirstPlayer > maxCardOfSecondPlayer) {
                 return firstPlayer;
             } else if (maxCardOfFirstPlayer < maxCardOfSecondPlayer) {
@@ -81,10 +82,10 @@ public class Task064Impl implements Task064 {
         Collection<Card> cards = new ArrayList<>(board);
         cards.addAll(player.getPlayerHand());
 
-        Collection<Card> clubCards = getCardsFilteredBySuit(cards, Suit.CLUB);
-        Collection<Card> diamondCards = getCardsFilteredBySuit(cards, Suit.DIAMOND);
-        Collection<Card> spadeCards = getCardsFilteredBySuit(cards, Suit.SPADE);
-        Collection<Card> heartCards = getCardsFilteredBySuit(cards, Suit.HEART);
+        Collection<Card> clubCards = filterCardsBySuit(cards, Suit.CLUB);
+        Collection<Card> diamondCards = filterCardsBySuit(cards, Suit.DIAMOND);
+        Collection<Card> spadeCards = filterCardsBySuit(cards, Suit.SPADE);
+        Collection<Card> heartCards = filterCardsBySuit(cards, Suit.HEART);
 
         if (checkIfThereIsRoyalFlush(clubCards)
                 || checkIfThereIsRoyalFlush(diamondCards)
@@ -93,10 +94,12 @@ public class Task064Impl implements Task064 {
             return Combination.ROYAL_FLUSH;
         }
 
-        if (checkIfThereIsStraightFlush(clubCards)
+        if ((checkIfThereIsStraightFlush(clubCards)
                 || checkIfThereIsStraightFlush(diamondCards)
                 || checkIfThereIsStraightFlush(spadeCards)
-                || checkIfThereIsStraightFlush(heartCards)) {
+                || checkIfThereIsStraightFlush(heartCards))
+                && (!checkIfThereIsStraightFlush(board)
+                || isTheSameSuitOnTheHand(new ArrayList<>(player.getPlayerHand())))) {
             return Combination.STRAIGHT_FLUSH;
         }
 
@@ -125,6 +128,10 @@ public class Task064Impl implements Task064 {
         }
 
         return Combination.HIGHCARD;
+    }
+
+    private boolean isTheSameSuitOnTheHand(List<Card> cards) {
+        return cards.get(0).getSuit().equals(cards.get(1).getSuit());
     }
 
     private boolean checkIfThereIsTwoPairs(Collection<Card> cards) {
@@ -170,7 +177,12 @@ public class Task064Impl implements Task064 {
         Map<Suit, Long> map = cards.stream()
                 .map(Card::getSuit)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-        return map.containsValue(5);
+        for (Map.Entry<Suit, Long> each : map.entrySet()) {
+            if (each.getValue() == 5) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private boolean checkIfThereIsFullHouse(Collection<Card> cards) {
@@ -215,9 +227,9 @@ public class Task064Impl implements Task064 {
                 && list.contains(14);
     }
 
-    private Collection<Card> getCardsFilteredBySuit(Collection<Card> cards, Suit suit) {
+    private Collection<Card> filterCardsBySuit(Collection<Card> cards, Suit suit) {
         return cards.stream()
-                .filter(x -> !x.getSuit().equals(suit))
+                .filter(x -> x.getSuit().equals(suit))
                 .collect(Collectors.toList());
     }
 
@@ -268,8 +280,8 @@ public class Task064Impl implements Task064 {
     }
 
     private Rank determineRank(String card) {
-        String rank = card.length() == 2 ?
-                card.substring(0, 1) : card.substring(0, 2);
+        String rank = card.length() == 2
+                ? card.substring(0, 1) : card.substring(0, 2);
 
         switch (rank) {
             case "2":
@@ -304,8 +316,8 @@ public class Task064Impl implements Task064 {
     }
 
     private Suit determineSuit(String card) {
-        String suit = card.length() == 2 ?
-                card.substring(1, 2) : card.substring(2, 3);
+        String suit = card.length() == 2
+                ? card.substring(1, 2) : card.substring(2, 3);
 
         switch (suit) {
             case "c":

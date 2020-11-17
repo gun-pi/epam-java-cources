@@ -5,30 +5,34 @@ import java.util.Map;
 import java.util.Objects;
 
 public class CardImpl implements Card {
-    static private Map<Integer, Rank> rankIntMap = new HashMap<>();
-
-    static {
-        rankIntMap.put(2, Rank.TWO);
-        rankIntMap.put(3, Rank.THREE);
-        rankIntMap.put(4, Rank.FOUR);
-        rankIntMap.put(5, Rank.FIVE);
-        rankIntMap.put(6, Rank.SIX);
-        rankIntMap.put(7, Rank.SEVEN);
-        rankIntMap.put(8, Rank.EIGHT);
-        rankIntMap.put(9, Rank.NINE);
-        rankIntMap.put(10, Rank.TEN);
-        rankIntMap.put(11, Rank.JACK);
-        rankIntMap.put(12, Rank.QUEEN);
-        rankIntMap.put(13, Rank.KING);
-        rankIntMap.put(14, Rank.ACE);
-    }
+    private static Map<Integer, Rank> rankMap = initializeRankMap();
 
     private Rank rank;
     private Suit suit;
 
-    public CardImpl(Rank rank, Suit suit){
+    public CardImpl(Rank rank, Suit suit) {
         this.rank = rank;
         this.suit = suit;
+    }
+
+    private static Map<Integer, Rank> initializeRankMap() {
+        Map<Integer, Rank> rankMap = new HashMap<>();
+
+        rankMap.put(2, Rank.TWO);
+        rankMap.put(3, Rank.THREE);
+        rankMap.put(4, Rank.FOUR);
+        rankMap.put(5, Rank.FIVE);
+        rankMap.put(6, Rank.SIX);
+        rankMap.put(7, Rank.SEVEN);
+        rankMap.put(8, Rank.EIGHT);
+        rankMap.put(9, Rank.NINE);
+        rankMap.put(10, Rank.TEN);
+        rankMap.put(11, Rank.JACK);
+        rankMap.put(12, Rank.QUEEN);
+        rankMap.put(13, Rank.KING);
+        rankMap.put(14, Rank.ACE);
+
+        return rankMap;
     }
 
     /**
@@ -38,7 +42,7 @@ public class CardImpl implements Card {
      */
     @Override
     public int getCardRank() {
-        return rankIntMap.entrySet().stream()
+        return rankMap.entrySet().stream()
                 .filter(x -> x.getValue().equals(rank))
                 .map(Map.Entry::getKey)
                 .findAny()
@@ -52,7 +56,7 @@ public class CardImpl implements Card {
      */
     @Override
     public void setCardRank(int rank) {
-        this.rank = rankIntMap.get(rank);
+        this.rank = rankMap.get(rank);
     }
 
     /**
@@ -81,11 +85,14 @@ public class CardImpl implements Card {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CardImpl)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CardImpl)) {
+            return false;
+        }
         CardImpl card = (CardImpl) o;
-        return rank == card.rank &&
-                getSuit() == card.getSuit();
+        return rank == card.rank && getSuit() == card.getSuit();
     }
 
     @Override
