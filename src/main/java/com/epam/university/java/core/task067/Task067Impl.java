@@ -12,16 +12,16 @@ public class Task067Impl implements Task067 {
      * "L" shape movement means that the knight can change it's x coordinate
      * by 2 and it's y coordinate by 1
      * or it can change it's y coordinate by 2 and it's x coordinate by 1.
-     * <p>
+     * </p>
      * For example, if the knight is at the position (0, 0), it can move to:
      * (1,2), (1,-2), (2,1), (2,-1), (-1,2), (-1,-2), (-2,1), (-2, -1)
      * <p>
      * Return the least amount of steps needed to go from
      * the position START (x1, y1) to END (x2, y2).
-     * <p>
+     * </p>
      * <p>
      * Examples
-     * <p>
+     * </p>
      * (x1, y1, x2, y2) -> result
      * <p>
      * (1, 1, 8, 8) -> 6
@@ -55,7 +55,8 @@ public class Task067Impl implements Task067 {
         fieldOfVisitedPoints[startPosition[0]][startPosition[1]] = true;
         queue.add(new Cell(startPosition[0], startPosition[1], 0));
         Cell cell;
-        int x, y;
+        int x;
+        int y;
         while (!queue.isEmpty()) {
             cell = queue.pollFirst();
 

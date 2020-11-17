@@ -5,6 +5,13 @@ public class Cell {
     private int y;
     private int distance;
 
+    /**
+     * Constructor.
+     *
+     * @param x x
+     * @param y y
+     * @param distance distance
+     */
     public Cell(int x, int y, int distance) {
         this.x = x;
         this.y = y;
